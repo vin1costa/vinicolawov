@@ -15,26 +15,24 @@
             color: #ffffff;
         }
 
-        /* Cabeçalho ajustado */
         header {
             background-color: #a32432;
             padding: 10px 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Espaço entre logo e menu */
+            justify-content: space-between;
             width: 100%;
         }
 
         header img {
-            height: 40px; /* Tamanho da logo reduzido */
+            height: 40px;
             margin-right: 20px;
         }
 
-        /* Alinha o menu à direita */
         header nav {
             flex-grow: 1;
             display: flex;
-            justify-content: flex-end; /* Alinha o menu à direita */
+            justify-content: flex-end;
         }
 
         header nav ul {
@@ -61,21 +59,25 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            align-items: center; /* Alinha o conteúdo ao centro */
+            align-items: center;
         }
 
+        /* Ajuste da imagem para ser flexível em telas menores */
         section img {
             max-width: 50%;
             height: auto;
             border-radius: 10px;
-            height: 500px;
             margin-top: 45px;
-            margin-bottom: 20px; /* Centraliza a imagem */
+            margin-bottom: 20px;
+        }
+
+        h1, h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
             margin-top: 40px;
         }
 
@@ -88,7 +90,7 @@
             font-size: 1.5rem;
             line-height: 1.5;
             max-width: 500px;
-            text-align: center; /* Alinha o texto ao centro */
+            text-align: center;
         }
 
         .button {
@@ -118,10 +120,6 @@
         }
 
         #skip h2 {
-            margin-bottom: 20px;
-        }
-
-        #skip h3 {
             margin-bottom: 20px;
         }
 
@@ -186,14 +184,21 @@
 
         /* Ajustes para dispositivos móveis */
         @media (max-width: 768px) {
-            header {
-                flex-direction: row; /* Mantém a logo e o menu na mesma linha */
-                justify-content: space-between;
+            section img {
+                max-width: 80%; /* Ajuste da imagem para telas menores */
             }
 
-            header nav ul {
-                flex-direction: row;
-                gap: 10px;
+            h1 {
+                font-size: 1.8rem; /* Tamanho reduzido do H1 em telas menores */
+            }
+
+            p {
+                font-size: 1.2rem; /* Ajusta o texto para telas menores */
+            }
+
+            #contato .contato-content {
+                flex-direction: column;
+                gap: 30px;
             }
         }
     </style>
@@ -212,9 +217,9 @@
     </header>
 
     <section id="vinicola">
+        <h1>𝚅𝚒𝚗𝚒𝚌𝚘𝚕𝚊</h1>
         <img src="winelogo.jpg" alt="Imagem da Vinicola">
         <div>
-            <h2>𝚅𝚒𝚗𝚒𝚌𝚘𝚕𝚊</h2>
             <p>༺═──────────────────────────═༻ <br>· · • • • ❀ 𝓑𝓮𝓶-𝓿𝓲𝓷𝓭𝓸𝓼 ✿ • • • · · <br>
                 <br>➮ Respeito e bom senso é o mínimo <br>➮ 700 de ouro por missão 💰 <br>➮ Sem metas, apenas colabore <br>➮ A cada 400k de xp = 1 skin 💎 <br>➮ Entrar no grupo do whatsapp (obrigatório) <br>➮ Não é permitido teaming, throw e troll 🚫 <br>➮ Para maiores de 16 anos <br>➮ Clã pra socializar e jogar junto 🤝 <br>
                 <br>༺═─────────────────────────═༻
