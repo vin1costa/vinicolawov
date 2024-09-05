@@ -7,14 +7,14 @@
     <title>Vinicola</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-      body {
+     body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #900020;
     color: #ffffff;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Evita rolagem horizontal */
 }
 
 header {
@@ -26,6 +26,7 @@ header {
     position: static; /* Remove o cabeçalho fixo */
     width: 100%;
     z-index: 1000;
+    margin: 0; /* Remove espaço acima do cabeçalho */
 }
 
 header img {
@@ -34,9 +35,7 @@ header img {
 }
 
 header nav {
-    flex-grow: 1;
-    display: flex;
-    justify-content: flex-end;
+    flex-grow: 1; /* O menu ocupa o espaço restante */
 }
 
 header nav ul {
@@ -61,7 +60,7 @@ header nav ul li a {
 
 /* Adicionando espaço suficiente para o conteúdo não ser coberto pelo header */
 body {
-    padding-top: 60px;
+    padding-top: 60px; /* Ajustado para o cabeçalho não cobrir o conteúdo */
 }
 
 section {
@@ -142,6 +141,8 @@ footer {
     align-items: center;
     flex-direction: column;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 footer p {
@@ -159,7 +160,7 @@ footer a {
 /* Ajustes para a seção de contato */
 #contato {
     background: url('/img/wolvesville_large_day.wide3x.png') no-repeat center center/cover;
-    padding: 50px 0;
+    padding: 50px 20px;
     background-color: #900020;
     display: flex;
     flex-direction: column;
