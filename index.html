@@ -7,265 +7,266 @@
     <title>Vinicola</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #900020;
-            color: #ffffff;
-            box-sizing: border-box;
-            overflow-x: hidden; /* Remove possíveis barras de rolagem horizontal */
-        }
+/* CSS Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* Cabeçalho não fixo e ajustado para logo menor */
-        header {
-            background-color: #a32432;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Logo à esquerda e seções à direita */
-            position: relative;
-            width: 100%;
-            z-index: 1000;
-        }
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #900020;
+    color: #ffffff;
+    overflow-x: hidden; /* Remove overflow horizontal */
+}
 
-        /* Logo do cabeçalho */
-        header img {
-            height: 40px;
-        }
+/* Cabeçalho */
+header {
+    background-color: #a32432;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column; /* Altera para coluna para colocar a logo acima do menu */
+    align-items: center; /* Centraliza a logo e o menu */
+    justify-content: center;
+    width: 100%;
+    z-index: 1000;
+    position: relative;
+}
 
-        /* Menu de navegação */
-        header nav {
-            flex-grow: 1; /* O menu ocupa o espaço restante */
-        }
+header img {
+    height: 40px;
+    margin-bottom: 10px; /* Espaço entre a logo e o menu */
+}
 
-        header nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            justify-content: flex-end; /* Alinha as seções à direita */
-        }
+header nav {
+    width: 100%;
+}
 
-        header nav ul li {
-            display: inline-block;
-        }
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center; /* Alinha o menu ao centro */
+    align-items: center;
+    width: 100%;
+}
 
-        header nav ul li a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.2rem;
-        }
+header nav ul li {
+    display: inline-block;
+}
 
-        /* Adicionando espaço suficiente para o conteúdo não ser coberto pelo header não fixo */
-        body {
-            padding-top: 0; /* Remove espaço em branco acima do cabeçalho */
-        }
+header nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
 
-        section {
-            padding: 50px 20px;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center; /* Alinha o conteúdo ao centro */
-            box-sizing: border-box;
-            width: 100%;
-        }
+/* Seções */
+section {
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow: hidden; /* Remove qualquer possível overflow horizontal */
+}
 
-        section img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-top: 45px;
-            margin-bottom: 20px;
-        }
+section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 45px;
+    margin-bottom: 20px;
+}
 
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            margin-top: 40px;
-        }
+h2, h3 {
+    margin: 0;
+    padding: 0;
+}
 
-        h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
 
-        p {
-            font-size: 1.5rem;
-            line-height: 1.5;
-            max-width: 100%; /* Ajusta o texto para não ultrapassar a tela */
-            text-align: center;
-            margin: 0 10px; /* Ajusta a margem para evitar overflow */
-        }
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
 
-        .button {
-            background-color: #ff0000;
-            color: #ffffff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
+p {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    max-width: 100%;
+    text-align: center;
+    margin: 0 10px;
+}
 
-        .button:hover {
-            background-color: #d8e6f1;
-        }
+.button {
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
 
-        #skip {
-            background: url('90fc53c9.svg') no-repeat center center/cover;
-            padding: 100px 20px;
-            text-align: center;
-            color: #000000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: x-large;
-            box-sizing: border-box;
-            width: 100%;
-            overflow: hidden; /* Remove a sobra de tela */
-        }
+.button:hover {
+    background-color: #d8e6f1;
+}
 
-        #skip h2 {
-            margin-bottom: 20px;
-        }
+#skip {
+    background: url('90fc53c9.svg') no-repeat center center/cover;
+    padding: 100px 20px;
+    text-align: center;
+    color: #000000;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    font-size: x-large;
+    width: 100%;
+    overflow: hidden;
+}
 
-        #skip h3 {
-            margin-bottom: 20px;
-        }
+/* Rodapé */
+footer {
+    background-color: #a32432;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    overflow: hidden; /* Remove overflow no rodapé */
+}
 
-        /* Rodapé */
-        footer {
-            background-color: #a32432;
-            padding: 20px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            box-sizing: border-box;
-            width: 100%;
-            position: relative;
-        }
-        footer p {
-            margin: 5px 0;
-            font-size: 1rem;
-            color: #ffffff;
-        }
+footer p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #ffffff;
+}
 
-        footer a {
-            color: #ffffff;
-            text-decoration: underline;
-            cursor: pointer;
-        }
+footer a {
+    color: #ffffff;
+    text-decoration: underline;
+    cursor: pointer;
+}
 
-        #contato {
-            background: url('/img/wolvesville_large_day.wide3x.png') no-repeat center center/cover;
-            padding: 50px 20px;
-            background-color: #900020;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-sizing: border-box;
-            width: 100%;
-            overflow: hidden;
-        }
+#contato {
+    background: url('/img/wolvesville_large_day.wide3x.png') no-repeat center center/cover;
+    padding: 50px 20px;
+    background-color: #900020;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+}
 
-        #contato h1 {
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            color: #ffffff;
-        }
+#contato h1 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #ffffff;
+}
 
-        #contato .contato-content {
-            display: flex;
-            justify-content: center;
-            gap: 30px; /* Ajusta o gap para melhor visualização */
-            width: 100%;
-            max-width: 1000px; /* Limita a largura máxima */
-            box-sizing: border-box;
-        }
+#contato .contato-content {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1000px;
+}
 
-        #contato .contato-content div {
-            text-align: center;
-        }
+#contato .contato-content div {
+    text-align: center;
+}
 
-        #contato .contato-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
+#contato .contato-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
 
-        #contato .contato-content p {
-            font-size: 1.2rem;
-            color: #ffffff;
-        }
+#contato .contato-content p {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
 
-        /* Ajustes para dispositivos móveis */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: row;
-                padding: 10px;
-                align-items: center;
-                justify-content: space-between;
-            }
+/* Ajustes para dispositivos móveis */
+@media screen and (max-width: 768px) {
+    header {
+        flex-wrap: wrap;
+        padding: 10px;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-            header nav ul {
-                flex-direction: row;
-                gap: 15px;
-            }
+    header nav ul {
+        flex-direction: row;
+        gap: 15px;
+        justify-content: center;
+        width: 100%;
+    }
 
-            section img {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
+    section img {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
 
-            #contato .contato-content {
-                flex-direction: column;
-                gap: 30px;
-                max-width: 100%;
-            }
+    #contato .contato-content {
+        flex-direction: column;
+        gap: 30px;
+        max-width: 100%;
+    }
 
-            #vinicola {
-                padding: 50px 20px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                box-sizing: border-box;
-                width: 100%;
-                overflow: hidden; /* Remove a sobra de tela */
-            }
+    #vinicola {
+        padding: 50px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        overflow: hidden;
+    }
 
-            #vinicola h1 {
-                font-size: 2.5rem; /* Tamanho do título */
-                margin-bottom: 20px;
-                color: #ffffff;
-                text-align: center; /* Centraliza o texto */
-            }
+    #vinicola h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #ffffff;
+        text-align: center;
+    }
 
-            #vinicola img {
-                max-width: 90%; /* Garante que a imagem não ultrapasse a tela */
-                height: auto;
-                border-radius: 10px;
-                margin-top: 20px;
-                margin-bottom: 20px;
-            }
+    #vinicola img {
+        max-width: 90%;
+        height: auto;
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 
-            #vinicola p {
-                font-size: 1.2rem; /* Ajusta o tamanho do texto para melhor leitura em telas pequenas */
-                line-height: 1.6;
-                max-width: 90%; /* Garante que o texto não ultrapasse a tela */
-                text-align: center; /* Centraliza o texto */
-                margin: 0 auto; /* Garante centralização e evita overflow */
-            }
-        }
+    #vinicola p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        max-width: 90%;
+        text-align: center;
+        margin: 0 auto;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -285,9 +286,9 @@
         <h1>𝚅𝚒𝚗𝚒𝚌𝚘𝚕𝚊</h1>
         <img src="winelogo.jpg" alt="Imagem da Vinicola">
         <div>
-            <p>༺═──────────────────────═༻ <br>· · • • • ❀ 𝓑𝓮𝓶-𝓿𝓲𝓷𝓭𝓸𝓼 ✿ • • • · · <br>
+            <p>༺═───────────────────═༻ <br>· · • • • ❀ 𝓑𝓮𝓶-𝓿𝓲𝓷𝓭𝓸𝓼 ✿ • • • · · <br>
                 <br>➮ Respeito e bom senso é o mínimo <br>➮ 700 de ouro por missão 💰 <br>➮ Sem metas, apenas colabore <br>➮ A cada 400k de xp = 1 skin 💎 <br>➮ Entrar no grupo do whatsapp (obrigatório) <br>➮ Não é permitido teaming, throw e troll 🚫 <br>➮ Para maiores de 16 anos <br>➮ Clã pra socializar e jogar junto 🤝 <br>
-                <br>༺═────────────────────═༻
+                <br>༺═─────────────────═༻
             </p>
         </div>
     </section>
