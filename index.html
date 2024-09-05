@@ -7,265 +7,265 @@
     <title>Vinicola</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #900020;
-    color: #ffffff;
-    box-sizing: border-box;
-    overflow-x: hidden; /* Remove possíveis barras de rolagem horizontal */
-}
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #900020;
+            color: #ffffff;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Remove possíveis barras de rolagem horizontal */
+        }
 
-/* Cabeçalho não fixo e ajustado para logo menor */
-header {
-    background-color: #a32432;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Logo à esquerda e seções à direita */
-    position: relative;
-    width: 100%;
-    z-index: 1000;
-}
+        /* Cabeçalho não fixo e ajustado para logo menor */
+        header {
+            background-color: #a32432;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Logo à esquerda e seções à direita */
+            position: relative;
+            width: 100%;
+            z-index: 1000;
+        }
 
-/* Logo do cabeçalho */
-header img {
-    height: 40px;
-}
+        /* Logo do cabeçalho */
+        header img {
+            height: 40px;
+        }
 
-/* Menu de navegação */
-header nav {
-    flex-grow: 1; /* O menu ocupa o espaço restante */
-}
+        /* Menu de navegação */
+        header nav {
+            flex-grow: 1; /* O menu ocupa o espaço restante */
+        }
 
-header nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: flex-end; /* Alinha as seções à direita */
-}
+        header nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: flex-end; /* Alinha as seções à direita */
+        }
 
-header nav ul li {
-    display: inline-block;
-}
+        header nav ul li {
+            display: inline-block;
+        }
 
-header nav ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1.2rem;
-}
+        header nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
 
-/* Adicionando espaço suficiente para o conteúdo não ser coberto pelo header não fixo */
-body {
-    padding-top: 0; /* Remove espaço em branco acima do cabeçalho */
-}
+        /* Adicionando espaço suficiente para o conteúdo não ser coberto pelo header não fixo */
+        body {
+            padding-top: 0; /* Remove espaço em branco acima do cabeçalho */
+        }
 
-section {
-    padding: 50px 20px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center; /* Alinha o conteúdo ao centro */
-    box-sizing: border-box;
-    width: 100%;
-}
+        section {
+            padding: 50px 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center; /* Alinha o conteúdo ao centro */
+            box-sizing: border-box;
+            width: 100%;
+        }
 
-section img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-top: 45px;
-    margin-bottom: 20px;
-}
+        section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 45px;
+            margin-bottom: 20px;
+        }
 
-h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    margin-top: 40px;
-}
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
 
-h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-}
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
 
-p {
-    font-size: 1.5rem;
-    line-height: 1.5;
-    max-width: 100%; /* Ajusta o texto para não ultrapassar a tela */
-    text-align: center;
-    margin: 0 10px; /* Ajusta a margem para evitar overflow */
-}
+        p {
+            font-size: 1.5rem;
+            line-height: 1.5;
+            max-width: 100%; /* Ajusta o texto para não ultrapassar a tela */
+            text-align: center;
+            margin: 0 10px; /* Ajusta a margem para evitar overflow */
+        }
 
-.button {
-    background-color: #ff0000;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
+        .button {
+            background-color: #ff0000;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
 
-.button:hover {
-    background-color: #d8e6f1;
-}
+        .button:hover {
+            background-color: #d8e6f1;
+        }
 
-#skip {
-    background: url('90fc53c9.svg') no-repeat center center/cover;
-    padding: 100px 20px;
-    text-align: center;
-    color: #000000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: x-large;
-    box-sizing: border-box;
-    width: 100%;
-    overflow: hidden; /* Remove a sobra de tela */
-}
+        #skip {
+            background: url('90fc53c9.svg') no-repeat center center/cover;
+            padding: 100px 20px;
+            text-align: center;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: x-large;
+            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden; /* Remove a sobra de tela */
+        }
 
-#skip h2 {
-    margin-bottom: 20px;
-}
+        #skip h2 {
+            margin-bottom: 20px;
+        }
 
-#skip h3 {
-    margin-bottom: 20px;
-}
+        #skip h3 {
+            margin-bottom: 20px;
+        }
 
-footer {
-    background-color: #a32432;
-    padding: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    box-sizing: border-box;
-    width: 100%;
-}
+        /* Rodapé */
+        footer {
+            background-color: #a32432;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            box-sizing: border-box;
+            width: 100%;
+            position: relative;
+        }
+        footer p {
+            margin: 5px 0;
+            font-size: 1rem;
+            color: #ffffff;
+        }
 
-footer p {
-    margin: 5px 0;
-    font-size: 1rem;
-    color: #ffffff;
-}
+        footer a {
+            color: #ffffff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
 
-footer a {
-    color: #ffffff;
-    text-decoration: underline;
-    cursor: pointer;
-}
+        #contato {
+            background: url('/img/wolvesville_large_day.wide3x.png') no-repeat center center/cover;
+            padding: 50px 20px;
+            background-color: #900020;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden;
+        }
 
-#contato {
-    background: url('/img/wolvesville_large_day.wide3x.png') no-repeat center center/cover;
-    padding: 50px 20px;
-    background-color: #900020;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    box-sizing: border-box;
-    width: 100%;
-    overflow: hidden; /* Remove a sobra de tela */
-}
+        #contato h1 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #ffffff;
+        }
 
-#contato h1 {
-    margin-bottom: 30px;
-    font-size: 2.5rem;
-    color: #ffffff;
-}
+        #contato .contato-content {
+            display: flex;
+            justify-content: center;
+            gap: 30px; /* Ajusta o gap para melhor visualização */
+            width: 100%;
+            max-width: 1000px; /* Limita a largura máxima */
+            box-sizing: border-box;
+        }
 
-#contato .contato-content {
-    display: flex;
-    justify-content: center;
-    gap: 30px; /* Ajusta o gap para melhor visualização */
-    width: 100%;
-    max-width: 1000px; /* Limita a largura máxima */
-    box-sizing: border-box;
-}
+        #contato .contato-content div {
+            text-align: center;
+        }
 
-#contato .contato-content div {
-    text-align: center;
-}
+        #contato .contato-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
 
-#contato .contato-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #ffffff;
-}
+        #contato .contato-content p {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
 
-#contato .contato-content p {
-    font-size: 1.2rem;
-    color: #ffffff;
-}
+        /* Ajustes para dispositivos móveis */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: row;
+                padding: 10px;
+                align-items: center;
+                justify-content: space-between;
+            }
 
-/* Ajustes para dispositivos móveis */
-@media (max-width: 768px) {
-    header {
-        flex-direction: row;
-        padding: 10px;
-        align-items: center;
-        justify-content: space-between;
-    }
+            header nav ul {
+                flex-direction: row;
+                gap: 15px;
+            }
 
-    header nav ul {
-        flex-direction: row;
-        gap: 15px;
-    }
+            section img {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
 
-    section img {
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
+            #contato .contato-content {
+                flex-direction: column;
+                gap: 30px;
+                max-width: 100%;
+            }
 
-    #contato .contato-content {
-        flex-direction: column;
-        gap: 30px;
-        max-width: 100%;
-    }
+            #vinicola {
+                padding: 50px 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                box-sizing: border-box;
+                width: 100%;
+                overflow: hidden; /* Remove a sobra de tela */
+            }
 
-    #vinicola {
-        padding: 50px 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        box-sizing: border-box;
-        width: 100%;
-        overflow: hidden; /* Remove a sobra de tela */
-    }
+            #vinicola h1 {
+                font-size: 2.5rem; /* Tamanho do título */
+                margin-bottom: 20px;
+                color: #ffffff;
+                text-align: center; /* Centraliza o texto */
+            }
 
-    #vinicola h1 {
-        font-size: 2.5rem; /* Tamanho do título */
-        margin-bottom: 20px;
-        color: #ffffff;
-        text-align: center; /* Centraliza o texto */
-    }
+            #vinicola img {
+                max-width: 90%; /* Garante que a imagem não ultrapasse a tela */
+                height: auto;
+                border-radius: 10px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
 
-    #vinicola img {
-        max-width: 90%; /* Garante que a imagem não ultrapasse a tela */
-        height: auto;
-        border-radius: 10px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    #vinicola p {
-        font-size: 1.2rem; /* Ajusta o tamanho do texto para melhor leitura em telas pequenas */
-        line-height: 1.6;
-        max-width: 90%; /* Garante que o texto não ultrapasse a tela */
-        text-align: center; /* Centraliza o texto */
-        margin: 0 auto; /* Garante centralização e evita overflow */
-    }
-}
-
+            #vinicola p {
+                font-size: 1.2rem; /* Ajusta o tamanho do texto para melhor leitura em telas pequenas */
+                line-height: 1.6;
+                max-width: 90%; /* Garante que o texto não ultrapasse a tela */
+                text-align: center; /* Centraliza o texto */
+                margin: 0 auto; /* Garante centralização e evita overflow */
+            }
+        }
     </style>
 </head>
 <body>
@@ -286,16 +286,15 @@ footer a {
         <img src="winelogo.jpg" alt="Imagem da Vinicola">
         <div>
             <p>༺═──────────────────────═༻ <br>· · • • • ❀ 𝓑𝓮𝓶-𝓿𝓲𝓷𝓭𝓸𝓼 ✿ • • • · · <br>
-                <br>➮ Respeito e bom senso é o mínimo <br>➮ 700 de ouro por missão 💰 <br>➮ Sem metas, apenas colabore <br>➮ A cada 400k de xp = 1 skin 💎 <br>➮ Entrar no grupo do whatsapp (obrigatório) <br>➮ Não é permitido teaming, throw e troll 🚫 <br>➮ Para maiores de 16 anos <br>➮ Clã pra socializar e jogar junto 🤝 <br>
-                <br>༺═────────────────────═༻
+                <br>➮ Respeito e bom senso é o mínimo <br>➮ 700 de ouro por missão 💰 <br>➮ Sem metas, apenas colabore <br>➮ A cada 400k de xp = 1 skin 💎 <br>➮ Entrar no grupo do Discord para comunicação! ✈️
             </p>
         </div>
     </section>
 
     <section id="skip">
-        <h1>𝕊𝕜𝕚𝕡</h1>
-        <p>𝘊𝘭𝘪𝘲𝘶𝘦 𝘢𝘣𝘢𝘪𝘹𝘰 𝘱𝘢𝘳𝘢 𝘥𝘢𝘳 𝘴𝘬𝘪𝘱 𝘯𝘢 𝘮𝘪𝘴𝘴ã𝘰 𝘢𝘵𝘶𝘢𝘭</p>
-        <button class="button" onclick="skipWaitingTime()">𝙎𝙆𝙄𝙋</button>
+        <h2>SKIP</h2>
+        <h3>Mensagem de skip aqui.</h3>
+        <button class="button">Pular</button>
         <script>async function skipWaitingTime() {
             const API_KEY = 'Bot A9PSNejjby7Q6s9jAllKpDNAornMw1HZteYCj43EUvAcpvAlwnbwDd8QOQJxSxnw';
             const API_URL = 'https://api.wolvesville.com/';
@@ -337,25 +336,22 @@ footer a {
     </section>
 
     <section id="contato">
-        <h1>ℭ𝔬𝔫𝔱𝔞𝔱𝔬</h1>
+        <h1>Contato</h1>
         <div class="contato-content">
             <div>
-                <h3>𝔏í𝔡𝔢𝔯:</h3>
-                <p>𝘷𝘪𝘯𝘪</p>
+                <h3>Líder</h3>
+                <p>Nome do Líder</p>
             </div>
             <div>
-                <h3>ℭ𝔬𝔩í𝔡𝔢𝔯𝔢𝔰:</h3>
-                <p>𝘦𝘪𝘮𝘺, 𝘙𝘢𝘺𝘴𝘴𝘢_𝘮𝘪 𝘦 𝘍𝘰𝘳𝘥_𝘩𝘤𝘴𝘴</p>
+                <h3>Colíder</h3>
+                <p>Nomes dos Colíderes</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <div>
-            <p>𝚂𝚒𝚝𝚎 𝚌𝚛𝚒𝚊𝚍𝚘 𝚙𝚘𝚛: 𝘷𝘪𝘯𝘪</p>
-            <p><a href="#">𝚅𝚘𝚕𝚝𝚊𝚛 𝚊𝚘 𝚝𝚘𝚙𝚘</a></p>
-        </div>
+        <p>© 2024 Vinicola. Todos os direitos reservados.</p>
+        <p><a href="#top">Voltar ao topo</a></p>
     </footer>
 </body>
-
 </html>
