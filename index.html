@@ -15,17 +15,14 @@
             color: #ffffff;
         }
 
-        /* Cabeçalho fixo e ajustado para logo menor */
+        /* Cabeçalho ajustado */
         header {
             background-color: #a32432;
             padding: 10px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between; /* Espaço entre logo e menu */
-            position: fixed;
-            top: 0;
             width: 100%;
-            z-index: 1000; /* Certifica que o cabeçalho fique sempre visível */
         }
 
         header img {
@@ -57,11 +54,6 @@
             text-decoration: none;
             font-weight: 500;
             font-size: 1.2rem;
-        }
-
-        /* Adicionando espaço suficiente para o conteúdo não ser coberto pelo header fixo */
-        body {
-            padding-top: 60px; /* Altura suficiente para o cabeçalho não cobrir o conteúdo */
         }
 
         section {
@@ -195,24 +187,13 @@
         /* Ajustes para dispositivos móveis */
         @media (max-width: 768px) {
             header {
-                flex-direction: column;
-                padding: 20px;
-                align-items: center;
+                flex-direction: row; /* Mantém a logo e o menu na mesma linha */
+                justify-content: space-between;
             }
 
             header nav ul {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 10px;
-            }
-
-            section img {
-                max-width: 80%;
-                margin-bottom: 20px;
-            }
-
-            #contato .contato-content {
-                flex-direction: column;
-                gap: 30px;
             }
         }
     </style>
@@ -306,5 +287,5 @@
         </div>
     </footer>
 </body>
-</html>
 
+</html>
