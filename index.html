@@ -15,22 +15,26 @@
             color: #ffffff;
         }
 
-        /* Cabeçalho fixo e ajustado para layout horizontal compacto */
+        /* Cabeçalho fixo e ajustado para logo menor */
         header {
             background-color: #a32432;
             padding: 10px 20px;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Alinha a logo e as seções à esquerda */
+            justify-content: flex-start; /* Alinha à esquerda */
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 1000;
+            z-index: 1000; /* Certifica que o cabeçalho fique sempre visível */
         }
 
         header img {
-            height: 40px;
-            margin-right: 20px; /* Espaço entre a logo e as seções */
+            height: 40px; /* Tamanho da logo reduzido */
+            margin-right: 20px;
+        }
+
+        header nav {
+            flex-grow: 1; /* O menu ocupa o espaço restante */
         }
 
         header nav ul {
@@ -38,6 +42,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: row;
             gap: 20px;
         }
 
@@ -52,21 +57,26 @@
             font-size: 1.2rem;
         }
 
+        /* Adicionando espaço suficiente para o conteúdo não ser coberto pelo header fixo */
         body {
-            padding-top: 60px;
+            padding-top: 60px; /* Altura suficiente para o cabeçalho não cobrir o conteúdo */
         }
 
         section {
             padding: 50px 20px;
             display: flex;
             justify-content: center;
+            flex-direction: column;
+            align-items: center; /* Alinha o conteúdo ao centro */
         }
 
         section img {
             max-width: 50%;
             height: auto;
-            margin-right: 50px;
             border-radius: 10px;
+            height: 500px;
+            margin-top: 45px;
+            margin-bottom: 20px; /* Centraliza a imagem */
         }
 
         h2 {
@@ -84,6 +94,7 @@
             font-size: 1.5rem;
             line-height: 1.5;
             max-width: 500px;
+            text-align: center; /* Alinha o texto ao centro */
         }
 
         .button {
@@ -112,6 +123,14 @@
             font-size: x-large;
         }
 
+        #skip h2 {
+            margin-bottom: 20px;
+        }
+
+        #skip h3 {
+            margin-bottom: 20px;
+        }
+
         footer {
             background-color: #a32432;
             padding: 20px 0;
@@ -126,6 +145,12 @@
             margin: 5px 0;
             font-size: 1rem;
             color: #ffffff;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: underline;
+            cursor: pointer;
         }
 
         #contato {
@@ -168,19 +193,14 @@
         /* Ajustes para dispositivos móveis */
         @media (max-width: 768px) {
             header {
-                flex-direction: row;
-                justify-content: flex-start;
-                padding: 10px;
+                flex-direction: column;
+                padding: 20px;
+                align-items: center;
             }
 
             header nav ul {
-                flex-direction: row;
-                gap: 10px;
-            }
-
-            section {
                 flex-direction: column;
-                padding: 120px 20px 50px;
+                gap: 10px;
             }
 
             section img {
@@ -188,60 +208,9 @@
                 margin-bottom: 20px;
             }
 
-            h2, h3 {
-                font-size: 1.5rem;
-            }
-
-            p {
-                font-size: 1.2rem;
-            }
-
             #contato .contato-content {
                 flex-direction: column;
                 gap: 30px;
-            }
-        }
-
-        /* Ajustes para telas muito pequenas */
-        @media (max-width: 480px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 10px 20px;
-            }
-
-            header img {
-                margin-bottom: 10px;
-            }
-
-            header nav ul {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            section {
-                padding: 30px 10px;
-            }
-
-            section img {
-                max-width: 100%;
-            }
-
-            .button {
-                font-size: 0.8rem;
-                padding: 8px 16px;
-            }
-
-            h2, h3 {
-                font-size: 1.2rem;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-
-            #contato .contato-content {
-                gap: 20px;
             }
         }
     </style>
@@ -280,10 +249,9 @@
         <h1>ℭ𝔬𝔫𝔱𝔞𝔱𝔬</h1>
         <div class="contato-content">
             <div>
-                                <h3>𝔏í𝔡𝔢𝔯:</h3>
+                <h3>𝔏í𝔡𝔢𝔯:</h3>
                 <p>𝘷𝘪𝘯𝘪</p>
-            </div>
-            <div>
+                       <div>
                 <h3>ℭ𝔬𝔩í𝔡𝔢𝔯𝔢𝔰:</h3>
                 <p>𝘦𝘪𝘮𝘺, 𝘙𝘢𝘺𝘴𝘴𝘢_𝘮𝘪 𝘦 𝘍𝘰𝘳𝘥_𝘩𝘤𝘴𝘴</p>
             </div>
@@ -296,44 +264,6 @@
             <p><a href="#vinicola">𝚅𝚘𝚕𝚝𝚊𝚛 𝚊𝚘 𝚝𝚘𝚙𝚘</a></p>
         </div>
     </footer>
-
-    <script>
-        async function skipWaitingTime() {
-            const API_KEY = 'Bot A9PSNejjby7Q6s9jAllKpDNAornMw1HZteYCj43EUvAcpvAlwnbwDd8QOQJxSxnw';
-            const API_URL = 'https://api.wolvesville.com/';
-            const ENDPOINT = 'clans/f4696878-f10a-4b02-bcaa-7ed461d83270/quests/active/skipWaitingTime';
-
-            const headers = new Headers({
-                Authorization: API_KEY,
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            });
-
-            try {
-                const response = await fetch(`${API_URL}${ENDPOINT}`, {
-                    method: 'POST',
-                    headers,
-                });
-
-                const result = await response.json();
-
-                if (response.status < 200 || response.status >= 300) {
-                    let customMessage = 'Nenhuma missão ativa ou tempo já skipado.';
-
-                    if (result.message === 'No active quest or already claimed time') {
-                        customMessage = 'Nenhuma missão ativa ou tempo já skipado.';
-                    }
-
-                    throw new Error(`${customMessage}`);
-                }
-
-                console.log(result);
-                alert('Tempo de espera pulado com sucesso!');
-            } catch (error) {
-                console.error(error.message);
-                alert(`${error.message}`);
-            }
-        }
-    </script>
 </body>
 </html>
+
