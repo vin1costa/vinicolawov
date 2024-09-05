@@ -7,6 +7,8 @@
     <title>Vinicola</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+/* CSS Atualizado */
+
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -22,7 +24,7 @@ header {
     padding: 10px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Logo à esquerda e seções à direita */
+    justify-content: space-between;
     position: relative;
     width: 100%;
     z-index: 1000;
@@ -35,7 +37,7 @@ header img {
 
 /* Menu de navegação */
 header nav {
-    flex-grow: 1; /* O menu ocupa o espaço restante */
+    flex-grow: 1;
 }
 
 header nav ul {
@@ -43,9 +45,8 @@ header nav ul {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: row;
     gap: 20px;
-    justify-content: flex-end; /* Alinha as seções à direita */
+    justify-content: flex-end;
 }
 
 header nav ul li {
@@ -59,17 +60,17 @@ header nav ul li a {
     font-size: 1.2rem;
 }
 
-/* Adicionando espaço suficiente para o conteúdo não ser coberto pelo header não fixo */
+/* Espaço suficiente para o conteúdo não ser coberto pelo header */
 body {
-    padding-top: 0; /* Remove espaço em branco acima do cabeçalho */
+    padding-top: 60px; /* Ajuste de acordo com o tamanho do cabeçalho */
 }
 
+/* Estilo das seções principais */
 section {
     padding: 50px 20px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    align-items: center; /* Alinha o conteúdo ao centro */
+    align-items: center;
     box-sizing: border-box;
     width: 100%;
 }
@@ -78,14 +79,12 @@ section img {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
-    margin-top: 45px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    margin-top: 40px;
 }
 
 h3 {
@@ -100,6 +99,7 @@ p {
     text-align: center;
 }
 
+/* Botão estilizado */
 .button {
     background-color: #ff0000;
     color: #ffffff;
@@ -115,6 +115,7 @@ p {
     background-color: #d8e6f1;
 }
 
+/* Estilo da seção Skip */
 #skip {
     background: url('90fc53c9.svg') no-repeat center center/cover;
     padding: 100px 20px;
@@ -129,14 +130,11 @@ p {
     overflow: hidden; /* Remove a sobra de tela */
 }
 
-#skip h2 {
+#skip h2, #skip h3 {
     margin-bottom: 20px;
 }
 
-#skip h3 {
-    margin-bottom: 20px;
-}
-
+/* Estilo do rodapé */
 footer {
     background-color: #a32432;
     padding: 20px 0;
@@ -161,6 +159,7 @@ footer a {
     cursor: pointer;
 }
 
+/* Estilo da seção Contato */
 #contato {
     background: url('/img/wolvesville_large_day.wide3x.png') no-repeat center center/cover;
     padding: 50px 20px;
@@ -204,32 +203,8 @@ footer a {
     color: #ffffff;
 }
 
-/* Ajustes para dispositivos móveis */
-@media (max-width: 768px) {
-    header {
-        flex-direction: row;
-        padding: 10px;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    header nav ul {
-        flex-direction: row;
-        gap: 15px;
-    }
-
-    section img {
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
-
-    #contato .contato-content {
-        flex-direction: column;
-        gap: 30px;
-        max-width: 100%;
-    }
-
-    #vinicola {
+/* Estilo da seção Vinicola */
+#vinicola {
     padding: 50px 20px;
     display: flex;
     flex-direction: column;
@@ -262,6 +237,53 @@ footer a {
     text-align: center; /* Centraliza o texto */
     margin: 0 auto; /* Garante centralização e evita overflow */
 }
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 10px;
+        align-items: center;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    section img {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #contato .contato-content {
+        flex-direction: column;
+        gap: 30px;
+        max-width: 100%;
+    }
+
+    #vinicola {
+        padding: 50px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        box-sizing: border-box;
+        width: 100%;
+        overflow: hidden; /* Remove a sobra de tela */
+    }
+
+    #vinicola h1 {
+        font-size: 2rem; /* Ajusta o tamanho do título em dispositivos móveis */
+    }
+
+    #vinicola img {
+        max-width: 100%; /* Garante que a imagem se ajuste ao tamanho da tela */
+    }
+
+    #vinicola p {
+        font-size: 1rem; /* Ajusta o tamanho do texto para melhor leitura em telas pequenas */
+    }
 }
 
     </style>
