@@ -21,7 +21,7 @@
             padding: 10px 20px;
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Alinha à esquerda */
+            justify-content: space-between; /* Espaço entre logo e menu */
             position: fixed;
             top: 0;
             width: 100%;
@@ -33,8 +33,11 @@
             margin-right: 20px;
         }
 
+        /* Alinha o menu à direita */
         header nav {
-            flex-grow: 1; /* O menu ocupa o espaço restante */
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end; /* Alinha o menu à direita */
         }
 
         header nav ul {
@@ -42,7 +45,6 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: row;
             gap: 20px;
         }
 
@@ -243,6 +245,44 @@
         <h1>𝕊𝕜𝕚𝕡</h1>
         <p>𝘊𝘭𝘪𝘲𝘶𝘦 𝘢𝘣𝘢𝘪𝘹𝘰 𝘱𝘢𝘳𝘢 𝘥𝘢𝘳 𝘴𝘬𝘪𝘱 𝘯𝘢 𝘮𝘪𝘴𝘴ã𝘰 𝘢𝘵𝘶𝘢𝘭</p>
         <button class="button" onclick="skipWaitingTime()">𝙎𝙆𝙄𝙋</button>
+        <script>async function skipWaitingTime() {
+            const API_KEY = 'Bot A9PSNejjby7Q6s9jAllKpDNAornMw1HZteYCj43EUvAcpvAlwnbwDd8QOQJxSxnw';
+            const API_URL = 'https://api.wolvesville.com/';
+            const ENDPOINT = 'clans/f4696878-f10a-4b02-bcaa-7ed461d83270/quests/active/skipWaitingTime';
+
+            const headers = new Headers({
+                Authorization: API_KEY,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            });
+
+            try {
+                const response = await fetch(`${API_URL}${ENDPOINT}`, {
+                    method: 'POST',
+                    headers,
+                });
+
+                const result = await response.json();
+
+                if (response.status < 200 || response.status >= 300) {
+                    let customMessage = 'Nenhuma missão ativa ou tempo já skipado.'; // Mensagem padrão
+
+                    // Mensagens personalizadas baseadas no conteúdo da resposta
+                    if (result.message === 'No active quest or already claimed time') {
+                        customMessage = 'Nenhuma missão ativa ou tempo já skipado.';
+                    }
+
+                    throw new Error(`${customMessage}`);
+                }
+
+                console.log(result);
+                alert('Tempo de espera pulado com sucesso!');
+            } catch (error) {
+                console.error(error.message);
+                alert(`${error.message}`);
+            }
+        }
+        </script>
     </section>
 
     <section id="contato">
@@ -251,7 +291,8 @@
             <div>
                 <h3>𝔏í𝔡𝔢𝔯:</h3>
                 <p>𝘷𝘪𝘯𝘪</p>
-                       <div>
+            </div>
+            <div>
                 <h3>ℭ𝔬𝔩í𝔡𝔢𝔯𝔢𝔰:</h3>
                 <p>𝘦𝘪𝘮𝘺, 𝘙𝘢𝘺𝘴𝘴𝘢_𝘮𝘪 𝘦 𝘍𝘰𝘳𝘥_𝘩𝘤𝘴𝘴</p>
             </div>
