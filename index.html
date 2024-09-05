@@ -15,13 +15,13 @@
             color: #ffffff;
         }
 
-        /* Cabeçalho fixo e ajustado para logo menor */
+        /* Cabeçalho fixo e ajustado para layout horizontal compacto */
         header {
             background-color: #a32432;
             padding: 10px 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start; /* Alinha a logo e as seções à esquerda */
             position: fixed;
             top: 0;
             width: 100%;
@@ -30,7 +30,7 @@
 
         header img {
             height: 40px;
-            margin-right: 10px;
+            margin-right: 20px; /* Espaço entre a logo e as seções */
         }
 
         header nav ul {
@@ -38,7 +38,6 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: row;
             gap: 20px;
         }
 
@@ -169,13 +168,13 @@
         /* Ajustes para dispositivos móveis */
         @media (max-width: 768px) {
             header {
-                flex-direction: column;
-                padding: 20px;
-                align-items: center;
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 10px;
             }
 
             header nav ul {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 10px;
             }
 
@@ -205,6 +204,21 @@
 
         /* Ajustes para telas muito pequenas */
         @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 20px;
+            }
+
+            header img {
+                margin-bottom: 10px;
+            }
+
+            header nav ul {
+                flex-direction: column;
+                gap: 5px;
+            }
+
             section {
                 padding: 30px 10px;
             }
@@ -233,6 +247,7 @@
     </style>
 </head>
 <body>
+
     <header>
         <img src="default-logo.png" alt="Logo">
         <nav>
@@ -243,6 +258,7 @@
             </ul>
         </nav>
     </header>
+
     <section id="vinicola">
         <img src="winelogo.jpg" alt="Imagem da Vinicola">
         <div>
@@ -253,11 +269,36 @@
             </p>
         </div>
     </section>
+
     <section id="skip">
         <h1>𝕊𝕜𝕚𝕡</h1>
         <p>𝘊𝘭𝘪𝘲𝘶𝘦 𝘢𝘣𝘢𝘪𝘹𝘰 𝘱𝘢𝘳𝘢 𝘥𝘢𝘳 𝘴𝘬𝘪𝘱 𝘯𝘢 𝘮𝘪𝘴𝘴ã𝘰 𝘢𝘵𝘶𝘢𝘭</p>
         <button class="button" onclick="skipWaitingTime()">𝙎𝙆𝙄𝙋</button>
-        <script>async function skipWaitingTime() {
+    </section>
+
+    <section id="contato">
+        <h1>ℭ𝔬𝔫𝔱𝔞𝔱𝔬</h1>
+        <div class="contato-content">
+            <div>
+                                <h3>𝔏í𝔡𝔢𝔯:</h3>
+                <p>𝘷𝘪𝘯𝘪</p>
+            </div>
+            <div>
+                <h3>ℭ𝔬𝔩í𝔡𝔢𝔯𝔢𝔰:</h3>
+                <p>𝘦𝘪𝘮𝘺, 𝘙𝘢𝘺𝘴𝘴𝘢_𝘮𝘪 𝘦 𝘍𝘰𝘳𝘥_𝘩𝘤𝘴𝘴</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <p>𝚂𝚒𝚝𝚎 𝚌𝚛𝚒𝚊𝚍𝚘 𝚙𝚘𝚛: 𝘷𝘪𝘯𝘪</p>
+            <p><a href="#vinicola">𝚅𝚘𝚕𝚝𝚊𝚛 𝚊𝚘 𝚝𝚘𝚙𝚘</a></p>
+        </div>
+    </footer>
+
+    <script>
+        async function skipWaitingTime() {
             const API_KEY = 'Bot A9PSNejjby7Q6s9jAllKpDNAornMw1HZteYCj43EUvAcpvAlwnbwDd8QOQJxSxnw';
             const API_URL = 'https://api.wolvesville.com/';
             const ENDPOINT = 'clans/f4696878-f10a-4b02-bcaa-7ed461d83270/quests/active/skipWaitingTime';
@@ -277,9 +318,8 @@
                 const result = await response.json();
 
                 if (response.status < 200 || response.status >= 300) {
-                    let customMessage = 'Nenhuma missão ativa ou tempo já skipado.'; // Mensagem padrão
+                    let customMessage = 'Nenhuma missão ativa ou tempo já skipado.';
 
-                    // Mensagens personalizadas baseadas no conteúdo da resposta
                     if (result.message === 'No active quest or already claimed time') {
                         customMessage = 'Nenhuma missão ativa ou tempo já skipado.';
                     }
@@ -294,28 +334,6 @@
                 alert(`${error.message}`);
             }
         }
-        </script>
-    </section>
-
-    <section id="contato">
-        <h1>ℭ𝔬𝔫𝔱𝔞𝔱𝔬</h1>
-        <div class="contato-content">
-            <div>
-                <h3>𝔏í𝔡𝔢𝔯:</h3>
-                <p>𝘷𝘪𝘯𝘪</p>
-            </div>
-            <div>
-                <h3>ℭ𝔬𝔩í𝔡𝔢𝔯𝔢𝔰:</h3>
-                <p>𝘦𝘪𝘮𝘺, 𝘙𝘢𝘺𝘴𝘴𝘢_𝘮𝘪 𝘦 𝘍𝘰𝘳𝘥_𝘩𝘤𝘴𝘴</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div>
-            <p>𝚂𝚒𝚝𝚎 𝚌𝚛𝚒𝚊𝚍𝚘 𝚙𝚘𝚛: 𝘷𝘪𝘯𝘪</p>
-            <p><a href="#vinicola">𝚅𝚘𝚕𝚝𝚊𝚛 𝚊𝚘 𝚝𝚘𝚙𝚘</a></p>
-        </div>
-    </footer>
+    </script>
 </body>
 </html>
