@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clã Vinicola</title>
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+                    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
+                    font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com;
+                    img-src 'self' data:;
+                    connect-src 'self' https://vinicolawov.viniciusxp13.workers.dev;
+                    frame-ancestors 'none';
+                    base-uri 'self';
+                    form-action 'self';">
+    <title>Clã Vinícola</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -11,95 +21,237 @@
             theme: {
                 extend: {
                     colors: {
-                        'wine-dark': '#5E1914',
-                        'wine-light': '#8B2E25',
-                        'wine-accent': '#A63D2F',
-                        'gold': '#D4AF37',
-                        'wine-bg': '#2A0A07'
+                        'cellar': '#160503',
+                        'wine-dark': '#3D0F0A',
+                        'wine': '#6B1B14',
+                        'wine-light': '#9A3327',
+                        'gold': '#C9A227',
+                        'gold-bright': '#E4C766',
+                        'cream': '#F1E6D2'
+                    },
+                    fontFamily: {
+                        'display': ['Cinzel', 'serif'],
+                        'body': ['Montserrat', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
-        
-        body { font-family: 'Montserrat', sans-serif; background-color: #2A0A07; color: #f5f5f5; }
-        .header, .footer { background: linear-gradient(135deg, #5E1914 0%, #8B2E25 100%); }
-        .title-font { font-family: 'Cinzel', serif; }
-        .wine-glass { animation: float 6s ease-in-out infinite; }
-        @keyframes float { 0%{transform:translateY(0)} 50%{transform:translateY(-20px)} 100%{transform:translateY(0)} }
-        .join-button { transition: all .3s ease; box-shadow: 0 5px 15px rgba(164,61,47,.4); }
-        .join-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(164,61,47,.6); }
-        .grape-decoration { position: absolute; opacity: .1; z-index: 0; }
-        .logo-placeholder { width:120px; height:60px; background-color:transparent; border:2px dashed transparent; display:flex; align-items:center; justify-content:center; margin:0 20px;}
-        .logo-placeholder i { color: rgba(255,255,255,.5); font-size:1.5rem; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        :root {
+            --cellar: #160503;
+            --wine-dark: #3D0F0A;
+            --wine: #6B1B14;
+            --wine-light: #9A3327;
+            --gold: #C9A227;
+            --gold-bright: #E4C766;
+            --cream: #F1E6D2;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cellar);
+            color: var(--cream);
+            font-weight: 300;
+            position: relative;
+        }
+
+        /* subtle grain + vignette, sits behind all content */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(154,51,39,0.18) 0%, rgba(22,5,3,0) 55%),
+                radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 60%);
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        }
+
+        .title-font { font-family: 'Cinzel', serif; letter-spacing: 0.01em; }
+
+        /* hairline divider with center ornament */
+        .vine-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold);
+            opacity: 0.85;
+        }
+        .vine-divider .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+        }
+
+        .glow-ring {
+            box-shadow: 0 0 0 1px rgba(201,162,39,0.35), 0 20px 60px -15px rgba(0,0,0,0.7);
+        }
+
+        .wine-float { animation: wine-float 7s ease-in-out infinite; }
+        @keyframes wine-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+
+        /* single orchestrated entrance sequence for the hero */
+        .reveal { opacity: 0; animation: reveal-up 0.9s cubic-bezier(.2,.7,.2,1) forwards; }
+        .reveal-1 { animation-delay: 0.05s; }
+        .reveal-2 { animation-delay: 0.25s; }
+        .reveal-3 { animation-delay: 0.45s; }
+        .reveal-4 { animation-delay: 0.65s; }
+        @keyframes reveal-up {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wine-float, .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+        }
+
+        /* CTA button: gold sweep on hover, restrained */
+        .cta-button {
+            position: relative;
+            overflow: hidden;
+            transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+        }
+        .cta-button::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -60%;
+            width: 40%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-20deg);
+            transition: left .6s ease;
+        }
+        .cta-button:hover::before { left: 130%; }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -10px rgba(154,51,39,0.7); }
+
+        .rule-item { border-left: 2px solid rgba(201,162,39,0.35); }
+
+        .roster-avatar {
+            width: 2.5rem; height: 2.5rem;
+            border-radius: 9999px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, var(--wine), var(--wine-dark));
+            border: 1px solid rgba(201,162,39,0.5);
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--gold-bright);
+            flex-shrink: 0;
+        }
+
         html { scroll-behavior: smooth; }
+
+        ::selection { background: var(--gold); color: var(--cellar); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <header class="header text-white py-6 shadow-lg">
-        <div class="container mx-auto px-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
-            <div class="flex items-center space-x-4">
-                <i class="fas fa-wine-glass-alt text-3xl text-gold"></i>
-                <h1 class="title-font text-3xl font-bold">Clã <span class="text-gold">Vinicola</span></h1>
+    <header class="sticky top-0 z-40 backdrop-blur bg-cellar/80 border-b border-wine-light/30">
+        <div class="container mx-auto px-4 py-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-wine-glass-alt text-2xl text-gold"></i>
+                <h1 class="title-font text-2xl font-semibold text-cream">Clã <span class="text-gold">Vinícola</span></h1>
             </div>
             <nav class="w-full md:w-auto">
-                <ul class="flex justify-center md:justify-end space-x-6">
-                    <li><a href="#vinicola" class="hover:text-gold transition">𝚅𝚒𝚗𝚒𝚌𝚘𝚕𝚊</a></li>
-                    <li><a href="#skip" class="hover:text-gold transition">𝚂𝚔𝚒𝚙</a></li>
-                    <li><a href="#contato" class="hover:text-gold transition">Contato</a></li>
+                <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
+                    <li><a href="#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
+                    <li><a href="#skip" class="hover:text-gold transition-colors">Ações</a></li>
+                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-  
-    <main class="flex-grow relative overflow-hidden">
-       
-        <div class="grape-decoration top-20 left-10 text-wine-accent text-8xl">
-            <i class="fas fa-wine-bottle"></i>
-        </div>
-        <div class="grape-decoration bottom-20 right-10 text-wine-accent text-8xl">
-            <i class="fas fa-wine-bottle"></i>
-        </div>
-        
-        <div id="vinicola"  class="container mx-auto px-4 py-16 flex flex-col items-center relative z-10">
-            
-            <div class="wine-glass mb-12">
-                <img src="/assets/imgs/winelogo.jpg" alt="Taça de vinho" class="rounded-full border-4 border-gold w-64 h-64 object-cover shadow-xl">
+
+    <main class="flex-grow relative z-10">
+
+        <section id="vinicola" class="container mx-auto px-4 pt-16 pb-20 flex flex-col items-center text-center">
+
+            <div class="wine-float reveal reveal-1 mb-10">
+                <img src="/assets/imgs/winelogo.jpg" alt="Emblema do Clã Vinícola" class="glow-ring rounded-full w-48 h-48 md:w-56 md:h-56 object-cover">
             </div>
-            
-           
-            <div class="max-w-3xl text-center mb-12">
-                <h2 class="title-font text-4xl md:text-5xl font-bold text-white mb-6">
-                    Bem-vindo ao <span class="text-gold">Clã Vinicola</span>
-                </h2>
-                <p class="text-lg md:text-xl mb-6 text-gray-200">
-                    <p>༺═─────────────────═༻ <br>· · • • • ❀ 𝓑𝓮𝓶-𝓿𝓲𝓷𝓭𝓸𝓼 ✿ • • • · · <br>
-                    <br>🍇🍷 Aprecie um vinho 🍷🍇<br>
-                    <br>➮ Respeito e bom senso é o mínimo <br>➮ 600 de ouro por missão 💰 <br>➮ Sem metas, apenas colabore <br>➮ Entrar no grupo do whatsapp (obrigatório) <br>➮ Não é permitido teaming, throw e troll 🚫 <br>➮ Para maiores de 16 anos <br>➮ Clã pra socializar e jogar junto 🤝 <br>
-                    <br>༺═───────────────═༻</p>
-                <p class="text-lg md:text-xl text-gray-200">
-                    Um clã de amigos, onde criamos memórias inesquecíveis. Venha fazer parte!
-                </p>
+
+            <h2 class="reveal reveal-2 title-font text-4xl md:text-5xl font-semibold text-cream mb-4 max-w-2xl">
+                Bem-vindo ao Clã Vinícola
+            </h2>
+            <p class="reveal reveal-2 text-cream/70 max-w-xl mb-12 text-base md:text-lg">
+                Um clã de amigos no Wolvesville, onde criamos memórias inesquecíveis a cada rodada. Venha fazer parte.
+            </p>
+
+            <div class="reveal reveal-3 w-full max-w-3xl mb-6">
+                <div class="vine-divider mb-8">
+                    <span class="line"></span>
+                    <i class="fas fa-wine-bottle text-sm"></i>
+                    <span class="line"></span>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-x-8 gap-y-5 text-left">
+                    <div class="rule-item pl-4">
+                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Convivência</p>
+                        <p class="text-cream/85">Respeito e bom senso são o mínimo esperado de todo membro.</p>
+                    </div>
+                    <div class="rule-item pl-4">
+                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Recompensa</p>
+                        <p class="text-cream/85">600 de ouro por missão concluída para o clã.</p>
+                    </div>
+                    <div class="rule-item pl-4">
+                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Ritmo</p>
+                        <p class="text-cream/85">Sem metas obrigatórias — colabore no seu tempo.</p>
+                    </div>
+                    <div class="rule-item pl-4">
+                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Grupo</p>
+                        <p class="text-cream/85">Entrar no grupo do WhatsApp é obrigatório.</p>
+                    </div>
+                    <div class="rule-item pl-4">
+                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Fair play</p>
+                        <p class="text-cream/85">Teaming, throw e troll não são tolerados.</p>
+                    </div>
+                    <div class="rule-item pl-4">
+                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Idade mínima</p>
+                        <p class="text-cream/85">Aberto a partir de 16 anos.</p>
+                    </div>
+                </div>
             </div>
-            
-            
-            <div id="skip" class="text-center">
-              <button id="joinButton"
-                      class="join-button bg-wine-accent hover:bg-wine-dark text-white font-bold py-4 px-8 rounded-full text-lg uppercase tracking-wider flex items-center"
-                      onclick="skipWaitingTime()">
-                  <i class="fas fa-users mr-2"></i> SKIP
-              </button>
+        </section>
+
+        <section id="skip" class="container mx-auto px-4 pb-24">
+            <div class="reveal reveal-4 max-w-xl mx-auto bg-wine-dark/40 border border-wine-light/30 rounded-2xl p-8 text-center">
+                <i class="fas fa-hourglass-half text-gold text-2xl mb-4"></i>
+                <h3 class="title-font text-xl text-cream mb-2">Espera de missão</h3>
+                <p class="text-cream/70 text-sm mb-6">Se o seu clã tem uma missão ativa, você pode pular o tempo de espera restante.</p>
+                <button id="joinButton"
+                        class="cta-button bg-wine-light hover:bg-wine text-cream font-semibold py-3.5 px-8 rounded-full inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onclick="skipWaitingTime()">
+                    <i class="fas fa-forward"></i> Pular tempo de espera
+                </button>
             </div>
+        </section>
 
 <script>
 
   const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
 
   async function skipWaitingTime() {
+    const btn = document.getElementById('joinButton');
+    if (btn.disabled) return;
+    btn.disabled = true;
+
     try {
       const response = await fetch(`${API_BASE}/skipWaitingTime`, {
         method: "POST" 
@@ -117,6 +269,8 @@
       alert("Tempo de espera pulado com sucesso!");
     } catch (error) {
       alert(String(error.message || error).replace(/^Erro:\s*/i, ''));
+    } finally {
+      btn.disabled = false;
     }
   }
 </script>
@@ -124,53 +278,47 @@
 
     </main>
 
-    <footer class="footer text-white py-8">
+    <footer class="relative z-10 border-t border-wine-light/30 bg-wine-dark/30 py-10">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center md:text-left items-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left items-start">
                 <div>
-                    <h3 class="title-font text-2xl font-bold mb-2">Clã Vinicola</h3>
-                    <p class="text-gold">Desde 05/24</p>
+                    <h3 class="title-font text-xl font-semibold text-cream mb-1">Clã Vinícola</h3>
+                    <p class="text-gold text-sm">Desde 05/24</p>
                 </div>
-                <div class="text-center">
-                    <div class="mb-2">
-                        <h3>𝔏í𝔡𝔢𝔯:</h3>
-                        <p><a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0">𝘷𝘪𝘯𝘪</a></p>
+                <div class="flex flex-col items-center md:items-start gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="roster-avatar">V</div>
+                        <div class="text-left">
+                            <p class="text-xs uppercase tracking-wide text-cream/50">Líder</p>
+                            <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" class="text-cream hover:text-gold transition-colors">vini</a>
+                        </div>
                     </div>
-                    <div>
-                        <h3>ℭ𝔬𝔩í𝔡𝔢𝔯𝔢𝔰:</h3>
-                        <p>
-                            <a href="https://api.whatsapp.com/send/?phone=5511918700879&text&type=phone_number&app_absent=0">𝚊𝚖𝚢</a>, 
-                            𝙼𝚒𝚕𝚎𝚗𝚗𝚊𝚊, 𝙿𝚘𝚌𝚘𝚢𝚘_ 𝘦 𝙿𝚎𝚍𝚛𝚘𝚖
-                        </p>
+                    <div class="flex items-start gap-3">
+                        <div class="roster-avatar">C</div>
+                        <div class="text-left">
+                            <p class="text-xs uppercase tracking-wide text-cream/50">Colíderes</p>
+                            <p class="text-cream/90">
+                                <a href="https://api.whatsapp.com/send/?phone=5511918700879&text&type=phone_number&app_absent=0" class="hover:text-gold transition-colors">amy</a>,
+                                Milennaa, Pocoyo_ e Pedrom
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex justify-center md:justify-end space-x-6 text-2xl">
-                    <a href="https://www.instagram.com/vinicola.wov/"  target="_blank" class="hover:text-gold transition"><i class="fab fa-instagram"></i></a>
-                    <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" target="_blank" class="hover:text-gold transition"><i class="fab fa-whatsapp"></i></a>
+                <div class="flex justify-center md:justify-end items-start gap-6 text-xl">
+                    <a href="https://www.instagram.com/vinicola.wov/" target="_blank" class="text-cream/70 hover:text-gold transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" target="_blank" class="text-cream/70 hover:text-gold transition-colors"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
-            <div id="contato" class="border-t border-wine-light mt-6 pt-6 text-center text-sm">
-                <p>&copy; 2026 Clã Vinicola. Todos os direitos reservados.</p><br>
-                <p>Site não oficial do "Wolvesville"</p>
+            <div id="contato" class="border-t border-wine-light/30 mt-8 pt-6 text-center text-xs text-cream/50">
+                <p>&copy; 2026 Clã Vinícola. Todos os direitos reservados.</p>
+                <p class="mt-1">Site não oficial do "Wolvesville".</p>
             </div>
         </div>
     </footer>
-    
-
-    <script>
-        document.getElementById('joinButton').addEventListener('click', function() {
-            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processando...';
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-check mr-2"></i> Solicitação Enviada!';
-                this.classList.remove('bg-wine-accent');
-                this.classList.add('bg-green-600');
-            }, 1500);
-        });
-    </script>
 
 
     <button id="openLogin"
-            class="fixed bottom-6 right-6 z-50 rounded-full px-5 py-3 bg-gold text-wine-bg font-semibold shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-gold/60">
+            class="fixed bottom-6 right-6 z-50 rounded-full px-5 py-3 bg-gold text-cellar font-semibold shadow-lg hover:bg-gold-bright transition-colors focus:outline-none focus:ring-2 focus:ring-gold/60">
         <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
     </button>
 
@@ -179,30 +327,30 @@
       <div class="absolute inset-0 bg-black/70"></div>
       <div class="absolute inset-0 flex items-center justify-center p-4">
         <div role="dialog" aria-modal="true" aria-labelledby="loginTitle"
-             class="w-full max-w-md rounded-2xl bg-wine-bg border border-wine-light shadow-2xl overflow-hidden">
-          <div class="flex items-center justify-between px-6 py-4 border-b border-wine-light">
-            <h3 id="loginTitle" class="title-font text-2xl font-bold text-gold">Acessar conta</h3>
-            <button id="closeLogin" class="text-gray-300 hover:text-white focus:outline-none" aria-label="Fechar">
-              <i class="fa-solid fa-xmark text-2xl"></i>
+             class="w-full max-w-md rounded-2xl bg-cellar border border-wine-light/40 shadow-2xl overflow-hidden">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-wine-light/30">
+            <h3 id="loginTitle" class="title-font text-xl font-semibold text-gold">Acessar conta</h3>
+            <button id="closeLogin" class="text-cream/60 hover:text-cream focus:outline-none" aria-label="Fechar">
+              <i class="fa-solid fa-xmark text-xl"></i>
             </button>
           </div>
 
           <form id="loginForm" class="px-6 py-5 space-y-4">
             <div>
-              <label class="block text-sm text-gray-300 mb-1" for="loginEmail">E-mail</label>
-              <input id="loginEmail" type="email" required
-                     class="w-full rounded-lg bg-[#3a0f0b] border border-wine-light text-white px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold"
+              <label class="block text-sm text-cream/70 mb-1" for="loginEmail">E-mail</label>
+              <input id="loginEmail" type="email" required autocomplete="email"
+                     class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
                      placeholder="voce@exemplo.com">
             </div>
             <div>
-              <label class="block text-sm text-gray-300 mb-1" for="loginPassword">Senha</label>
-              <input id="loginPassword" type="password" required
-                     class="w-full rounded-lg bg-[#3a0f0b] border border-wine-light text-white px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gold"
+              <label class="block text-sm text-cream/70 mb-1" for="loginPassword">Senha</label>
+              <input id="loginPassword" type="password" required autocomplete="current-password"
+                     class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
                      placeholder="********">
             </div>
 
 <div class="flex items-center justify-between pt-2">
-  <label class="inline-flex items-center text-sm text-gray-300">
+  <label class="inline-flex items-center text-sm text-cream/70">
     <input type="checkbox" class="mr-2 rounded border-wine-light bg-transparent" />
     Lembrar-me
   </label>
@@ -211,7 +359,7 @@
 
 
             <button type="submit"
-                    class="w-full mt-3 bg-gold text-wine-bg font-bold py-3 rounded-lg hover:opacity-90 transition">
+                    class="cta-button w-full mt-3 bg-gold text-cellar font-semibold py-3 rounded-lg hover:bg-gold-bright transition-colors">
               Entrar
             </button>
           </form>
@@ -288,7 +436,7 @@
             body: JSON.stringify({ email, password })
           });
           const j = await r.json();
-          if (!r.ok) throw new Error(j?.error || "Falha no login");
+          if (!r.ok) throw new Error("Não foi possível entrar. Verifique seu e-mail e senha.");
 
 
           localStorage.setItem("vinicola_token", j.token);
@@ -299,7 +447,7 @@
 
           window.location.href = "https://vinicolawov.com.br/admins";
         } catch (err) {
-          alert((err.message || "Erro no login").replace(/^Erro:\s*/i, ''));
+          alert(err.message || "Não foi possível entrar. Tente novamente.");
         } finally {
           btn.innerHTML = original;
           btn.disabled = false;
