@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt" style="font-size:16px;scroll-behavior:smooth;">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vinicola Enigma - Halloween</title>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" sizes="32x32" href="/assets/imgs/icon/favicon-32x32.png">
+  <style>
+    body {
+      background: radial-gradient(ellipse at 70% 15%, #3c1339 0%, #140716 80%), #140716;
+      color: #fafaff;
+      min-height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      margin: 0; padding: 0;
+      position: relative;
+    }
+    body:after {
+      content: '';
+      position: fixed; right: 6vw; bottom: 9vh; opacity: 0.12; pointer-events: none; z-index: 0;
+      background: url('https://cdn.pixabay.com/photo/2013/07/13/12/07/halloween-145249_960_720.png') no-repeat;
+      background-size: 310px 310px;
+      width: 310px; height: 310px;
+      filter: blur(1px) grayscale(0.15);
+    }
+    header {
+      text-align: center;
+      background: linear-gradient(90deg, #241027 70%, #f4831b 120%);
+      padding: 25px 0 18px 0;
+      color: #fff7cf;
+      letter-spacing: 0.4px;
+      border-bottom: 3.5px solid #8e2e56;
+      margin-bottom: 15px;
+    }
+    header img {
+      height: 60px; width: auto; border-radius: 12px; margin-bottom: 6px; box-shadow: 0 0 24px #0007;
+    }
+    nav ul { display: flex; justify-content: center; gap: 1.6em; list-style: none; padding: 0; margin: 12px 0 0 0;}
+    nav a { text-decoration: none; color: #fcd6ae; font-family:'Roboto', sans-serif; font-size: 1.07em; border-radius:6px; transition:.19s;}
+    nav a:hover { background: #f29c2e26; color: #fa8b1e; }
+    section#enigma {
+      background: #211028ee;
+      max-width: 430px;
+      margin: 40px auto 0 auto;
+      border-radius: 22px 32px 22px 32px;
+      box-shadow: 0 8px 48px #0008, 0 2px 20px #fd9e2c26;
+      border: 2.5px solid #fd750f;
+      padding: 42px 25px 37px 25px;
+      position: relative;
+      z-index: 2;
+      overflow: visible;
+    }
+    section#enigma:before {
+      content: '';
+      position: absolute; left: -15px; top: -18px; width: 60px; height: 58px; z-index:1; opacity:.44;
+      background: url('https://api.iconify.design/ph/spider-web-thin.svg?color=%23fa8b1e') no-repeat;
+      background-size:contain;
+    }
+    section#enigma:after {
+      content: '';
+      position: absolute; right: -14px; bottom: -16px; width: 66px; height: 60px; z-index:1; opacity:.32;
+      background: url('https://api.iconify.design/ph/spider-web-thin.svg?color=%23fcb603') no-repeat;
+      background-size:contain;
+    }
+    h1 {
+      font-family: 'Creepster', cursive;
+      color: #fcb603;
+      text-shadow: 0 3px 20px #160006ba, 0 1px 0 #fff8;
+      font-size: 2.5em;
+      letter-spacing: 2.3px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0;
+      margin-bottom: 0.13em;
+      gap: 0.2em;
+      text-align: center;
+    }
+    h1 .pumpkin, h1 .bat {
+      text-align: center;
+      margin: 0 0.15em;
+      display: inline-flex;
+      align-items: center;
+    }
+    .enigma-img {
+      width: 110px;
+      height: 110px;
+      border-radius: 17px;
+      object-fit: cover;
+      border: 4px solid #ffbf00;
+      box-shadow: 0 0 28px #7b55c430, 0 2px 18px #f4831b59;
+      background: #140716;
+      display: block;
+      margin: 0 auto 1.7em auto;
+    }
+    .riddle-box {
+      background: linear-gradient(112deg,#38254c 70%,#301507 100%);
+      color: #ffeee3;
+      border: 2px solid #fa8b1e;
+      font-size: 1.18em;
+      border-radius: 7px;
+      padding: 26px 13px 18px 13px;
+      margin-bottom: 26px;
+      text-align: center;
+      letter-spacing: 0.8px;
+      font-family: 'Roboto', sans-serif;
+      position: relative;
+      box-shadow: 0 3px 18px #fa8b1e45;
+      min-height: 78px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .riddle-box:before {
+      content:"🦇";
+      position: absolute;
+      left: -26px;
+      top: -19px;
+      font-size: 2.1em;
+      opacity: 0.84;
+    }
+    .question-img {
+      margin-bottom: 12px;
+      max-width: 170px;
+      border-radius: 10px;
+      box-shadow: 0 5px 24px #02011380;
+      border: 2px solid #fd750f;
+      background: #3c1339;
+      object-fit: cover;
+    }
+    .enigma-input {
+      background: #150712;
+      color: #f8e8bb;
+      border: 2px solid #fa8b1e;
+      border-radius: 7px;
+      font-size: 1em;
+      padding: 13px;
+      width: 100%;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      transition: border 0.24s;
+    }
+    .enigma-input:focus {
+      border: 2.5px solid #fcb603;
+      outline: none;
+      background: #190b19;
+    }
+    .enigma-btn {
+      background: linear-gradient(91deg,#fe9800 60%,#fd36aa 100%);
+      color: #170016;
+      border: none;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 1.09em;
+      padding: 15px 0;
+      width: 100%;
+      font-family: 'Creepster', sans-serif;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 6px #fff8, 0 3px 8px #b45e0464;
+      box-shadow: 0 1px 12px #6742f396;
+      margin: 8px 0 7px 0;
+      cursor: pointer;
+      transition: filter 0.15s, background 0.22s;
+      border-bottom: 2.2px solid #ae0b53;
+    }
+    .enigma-btn:hover {
+      filter: brightness(.94) drop-shadow(0 0 12px #fd9e2c);
+      background: #fd9e2c;
+    }
+    .riddle-feedback {
+      min-height: 2em;
+      margin: 7px 0 0 0;
+      color: #ff2f74;
+      font-size: 1.08em;
+      text-align: center;
+      font-weight: 700;
+      transition: 0.12s;
+      filter: drop-shadow(0 0 5px #160006);
+    }
+    .riddle-feedback.right {
+      color: #5fffc4;
+      text-shadow: 0 0 4px #fcb603;
+    }
+    .progress {
+      width: 100%;
+      height: 7px;
+      background: #2a0931;
+      border-radius: 8px;
+      margin-bottom: 17px;
+      overflow: hidden;
+      box-shadow: 0 0 8px #25083a30;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg,#fa8b1e 60%,#fd36aa 100%);
+      width: 0;
+      transition: width .35s;
+      border-radius: 8px;
+    }
+    footer {
+      background: linear-gradient(90deg,#241027 67%,#fcb603 140%);
+      border-top: 2px solid #fa8b1e;
+      color: #f7edd0;
+      text-align: center;
+      padding: 31px 0 17px 0;
+      font-size: 1.15em;
+      letter-spacing: 0.4px;
+      margin-top: 5vw;
+      position: relative;
+      box-shadow: 0 -1px 40px #63440930;
+    }
+    footer .ghost {
+      font-size: 2.3em;
+      position: absolute;
+      left: 17px;
+      bottom: 8px;
+      opacity: 0.9;
+    }
+    @media (max-width: 650px) {
+  section#enigma {
+    max-width: 95vw;
+    margin: 30px auto 20px auto;
+    padding: 8vw 6vw 14vw 6vw;
+    border-radius: 18px 28px 18px 28px;
+    box-shadow: 0 6px 34px #0008, 0 2px 15px #fd9e2c26;
+  }
+  h1 {
+    font-size: 1.7em;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.6em;
+  }
+  .enigma-img {
+    width: 85px;
+    height: 85px;
+    border-radius: 14px;
+    margin-bottom: 1.4em;
+  }
+  .riddle-box {
+    font-size: 1.05em;
+    padding: 18px 14px 14px 14px;
+    min-height: 90px;
+    letter-spacing: 0.6px;
+    box-shadow: 0 2px 14px #fa8b1e40;
+  }
+  .question-img {
+    max-width: 90vw;
+    height: auto;
+    margin-bottom: 12px;
+    border-radius: 7px;
+  }
+  .enigma-input {
+    font-size: 0.95em;
+    padding: 10px;
+  }
+  .enigma-btn {
+    font-size: 1.05em;
+    padding: 12px 0;
+    border-radius: 7px;
+    letter-spacing: 0.05em;
+  }
+  nav ul {
+    gap: 1.1em;
+    flex-wrap: wrap;
+    padding: 0 3vw;
+  }
+  nav a {
+    font-size: 1em;
+    padding: 6px 10px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <img src="/assets/imgs/default-logo.png" alt="Logo da Vinicola">
+    <nav>
+      <ul>
+        <li><a href="/">𝚅𝚒𝚗𝚒𝚌𝚘𝚗𝚒𝚌𝚘𝚕𝚊</a></li>
+        <li><a href="/#skip">𝚂𝚔𝚒𝚙</a></li>
+        <li><a href="/#contato">𝙲𝚘𝚗𝚝𝚊𝚝𝚘</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section id="enigma">
+    <h1><span class="pumpkin">🎃</span>Enigma de Halloween<span class="bat">🦇</span></h1>
+    <img src="/assets/imgs/winelogo.jpg" class="enigma-img" alt="Taça Vinicola Assombrada" id="logo-img">
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+    <div id="riddleBox" class="riddle-box"></div>
+    <form id="riddleForm" autocomplete="off" style="margin-top:20px">
+      <input type="text" id="riddleAnswer" class="enigma-input" placeholder="Digite sua resposta..." required>
+      <button class="enigma-btn" type="submit">Responder</button>
+      <div id="riddleFeedback" class="riddle-feedback"></div>
+    </form>
+  </section>
+  <footer>
+    <span class="ghost">👻</span>
+    <p>© 2025 𝘝𝘪𝘯𝘪𝘤𝘰𝘭𝘢 - Halloween 🎃</p>
+    <p><a href="#top" style="color:#fa8b1e;">Voltar ao topo</a></p>
+  </footer>
+  <script>
+    // Perguntas e respostas do quiz
+    const riddles = [
+      {
+        question: 'A palavra "Halloween" significa o quê?',
+        answer: "Véspera de Todos os Santos"
+      },
+      {
+        question: 'Qual o nome do festival de onde surgiu o Halloween?',
+        answer: "Samhain"
+      },
+      {
+        question: `Sou um homem astuto que enganou o Diabo,<br>
+Vaguei nas trevas, sem um lar, nem um abrigo.<br>
+Com um nabo eu iluminei meu caminho,<br>
+Mas hoje, em abóboras, sou lembrado com carinho.<br>
+Quem sou eu?`,
+        answer: "Jack O'Lantern"
+      },
+      {
+        question: `Qual o filme onde esse personagem aparece?<br>`,
+        answer: "Halloween",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8vmoePkwmJ4vOW9XQ-gShgyhA1hVqEtGOWG79PCebXpJ__4TAnzWqBTN6xiH43Vyq7ZzEOcVdnBzSgWN2HxRnAAz2xJGWYofOL4irHqw&s=10"
+      },
+      {
+        question: 'Quem é o membro mais antigo do clã? ',
+        answer: "lifeonmars"
+      },
+      {
+        question: 'Quantas missões o clã já completou?',
+        answer: "259"
+      },
+      {
+        question: 'Qual o número de xp do clã em milhões? (Exemplo de resposta: 1 milhão, 2 milhões...)',
+        answer: "29 milhões"
+      },
+      {
+        question: 'Quem é o membro com mais xp no clã?',
+        answer: "amy"
+      },
+      {
+        question: 'Quando o clã foi fundado? (Formato: mês/ano)',
+        answer: "05/2024"
+      },
+    ];
+
+    // Estado do quiz
+    let current = 0;
+    const riddleBox    = document.getElementById("riddleBox");
+    const riddleForm   = document.getElementById("riddleForm");
+    const riddleAnswer = document.getElementById("riddleAnswer");
+    const riddleFeedback = document.getElementById("riddleFeedback");
+    const progressBar  = document.getElementById("progressBar");
+
+    // Render função
+    function renderRiddle() {
+      // Atualiza barra de progresso
+      progressBar.style.width = ((current)/riddles.length)*100 + "%";
+      riddleFeedback.textContent = "";
+
+      // Atualiza questão e imagem
+      let content = '';
+      if (riddles[current].image) {
+        content += `<img src="${riddles[current].image}" class="question-img" alt="Pergunta imagem">`;
+      }
+      content += `<div>${riddles[current].question}</div>`;
+      riddleBox.innerHTML = content;
+      riddleAnswer.value = "";
+      riddleAnswer.focus();
+
+      // Muda texto do input para a última pergunta
+      riddleAnswer.placeholder = current < riddles.length-1 ? "Digite sua resposta..." : "Última resposta...";
+    }
+
+    // Finalização
+    function showFinish() {
+      // 100% progresso
+      progressBar.style.width = "100%";
+      riddleBox.innerHTML =
+        `<div><strong>Parabéns, você finalizou todos os enigmas!</strong><br>🎃👻 Envie esse print para o vini!</div>`;
+      riddleForm.style.display = "none";
+      riddleFeedback.textContent = "";
+    }
+
+    // Normaliza resposta (ignora acento/capitalização)
+    function normalize(str) {
+      return str.toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/'/g, "")
+        .replace(/-/g, " ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+    }
+
+    // Evento submit
+    riddleForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      const input = normalize(riddleAnswer.value);
+      const expected = normalize(riddles[current].answer);
+      if (input === expected) {
+        riddleFeedback.textContent = "Resposta correta! ✅";
+        riddleFeedback.classList.add("right");
+        setTimeout(() => {
+          current++;
+          if (current < riddles.length){
+            renderRiddle();
+          } else {
+            showFinish();
+          }
+        }, 1000); // tempo para mostrar acerto
+      } else {
+        riddleFeedback.textContent = "Resposta incorreta! Tente novamente...";
+        riddleFeedback.classList.remove("right");
+      }
+    });
+
+    // Inicializa quiz
+    renderRiddle();
+  </script>
+</body>
+</html>

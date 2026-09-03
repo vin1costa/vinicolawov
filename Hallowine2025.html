@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hallowine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hw-bg': '#0b0411',
+                        'hw-purple': '#2b1447',
+                        'hw-orange': '#ff6600',
+                        'hw-accent': '#bf3500',
+                        'hw-detail': '#451863',
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap");
+        body {
+            font-family: "Montserrat", sans-serif;
+            background-color: #0b0411;
+            color: #f8ebd5;
+        }
+        .header, .footer {
+            background: linear-gradient(135deg, #12081d 0%, #2b1447 100%);
+        }
+        .title-font {
+            font-family: "Cinzel", serif;
+            text-shadow: 3px 3px 0 #bf3500, 4px 4px 12px #0009;
+        }
+        .wine-glass {
+            animation: float 6s ease-in-out infinite;
+            filter: drop-shadow(0 4px 30px #bf3500cc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            max-width: 16rem;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-24px); }
+            100% { transform: translateY(0); }
+        }
+        .join-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+        }
+        .join-button:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 0 10px 28px rgba(255, 102, 0, 0.4);
+            background: #ff6600 !important;
+        }
+        .grape-decoration {
+            position: absolute;
+            opacity: 0.11;
+            z-index: 1;
+        }
+        .logo-placeholder {
+            width: 120px;
+            height: 60px;
+            background-color: transparent;
+            border: 2px dashed transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 20px;
+        }
+        .logo-placeholder i {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Halloween Effects */
+        .effect-layer {
+            position: fixed;
+            pointer-events: none;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+        }
+        .flying-witch {
+            position: absolute;
+            top: 40px;
+            width: 140px;
+            height: 120px;
+            z-index: 2;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            opacity: 0;
+        }
+        .witch1 {
+            left: -180px;
+            animation-name: witch-fly1;
+            animation-duration: 12s;
+        }
+        .witch2 {
+            left: -300px;
+            animation-name: witch-fly2;
+            animation-duration: 14s;
+            animation-delay: 4s;
+        }
+        .witch3 {
+            left: -500px;
+            animation-name: witch-fly3;
+            animation-duration: 16s;
+            animation-delay: 7s;
+        }
+        @keyframes witch-fly1 {
+            0% {
+                left: -180px;
+                top: 30px;
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            40% {
+                top: 80px;
+            }
+            60% {
+                top: 30px;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                left: 100vw;
+                top: 70px;
+                opacity: 0;
+            }
+        }
+        @keyframes witch-fly2 {
+            0% {
+                left: -300px;
+                top: 50px;
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            45% {
+                top: 90px;
+            }
+            65% {
+                top: 55px;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                left: 100vw;
+                top: 65px;
+                opacity: 0;
+            }
+        }
+        @keyframes witch-fly3 {
+            0% {
+                left: -500px;
+                top: 45px;
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            50% {
+                top: 80px;
+            }
+            70% {
+                top: 40px;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                left: 100vw;
+                top: 50px;
+                opacity: 0;
+            }
+        }
+        .fog-dark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 130px;
+            pointer-events: none;
+            z-index: 10;
+            background: radial-gradient(
+                ellipse at 50% 10%,
+                #7a4b8d15 0%,
+                transparent 85%
+            );
+        }
+        .text-hw-orange {
+            color: #ff6600;
+        }
+        .border-hw-orange {
+            border-color: #ff6600;
+        }
+        /* Ajustes para garantir que o texto não ultrapasse a largura */
+        #vinicola > div.max-w-3xl,
+        #vinicola > div.max-w-3xl > p,
+        #vinicola > div.max-w-3xl > p > p,
+        #vinicola > div.max-w-3xl > p > p > br {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+        #vinicola {
+            max-width: 100vw;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Halloween Effect Layer (witch and fog only) -->
+    <div class="effect-layer">
+        <img 
+            src="/assets/imgs/bruxa.png" 
+            alt="Bruxa voadora" 
+            class="flying-witch witch1" />
+        <img 
+            src="/assets/imgs/bruxa.png" 
+            alt="Bruxa voadora" 
+            class="flying-witch witch2" />
+        <img 
+            src="/assets/imgs/bruxa.png" 
+            alt="Bruxa voadora" 
+            class="flying-witch witch3" />
+        <div class="fog-dark"></div>
+    </div>
+    <!-- Header -->
+    <header class="header text-white py-6 shadow-lg" style="z-index: 11">
+        <div class="container mx-auto px-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
+            <div class="flex items-center space-x-4">
+                <i class="fas fa-pumpkin text-3xl text-hw-orange" style="filter: drop-shadow(0 0 24px #ff6600)"></i>
+                <h1 class="title-font text-3xl font-bold text-hw-orange">Hallowine</h1>
+            </div>
+            <nav class="w-full md:w-auto">
+                <ul class="flex justify-center md:justify-end space-x-6">
+                    <li><a href="#vinicola" class="hover:text-hw-orange transition">𝙷𝚊𝚕𝚕𝚘𝚠𝚒𝚗𝚎</a></li>
+                    <li><a href="#skip" class="hover:text-hw-orange transition">𝚂𝚔𝚒𝚙</a></li>
+                    <li><a href="#contato" class="hover:text-hw-orange transition">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="flex-grow relative overflow-hidden">
+        <div id="vinicola" class="container mx-auto px-4 py-16 flex flex-col items-center relative z-10 max-w-full">
+            <!-- Logo -->
+            <div class="wine-glass mb-12">
+                <img src="/assets/imgs/winelogo.jpg" alt="Taça de vinho" class="rounded-full border-4 border-hw-orange w-64 h-64 object-cover shadow-2xl mx-auto" style="box-shadow: 0 0 36px #ff6600cc" />
+            </div>
+            <!-- Central Text -->
+            <div class="max-w-3xl text-center mb-12 px-4">
+                <h2 class="title-font text-3xl sm:text-4xl md:text-5xl font-bold text-hw-orange mb-4" style="letter-spacing: 2px">
+                    Bem-vindo ao <span class="text-hw-orange">Hallowine do Clã Vinicola</span><i class="fas fa-hat-wizard ml-2 text-hw-orange"></i>
+                </h2>
+                <p class="text-lg sm:text-xl md:text-2xl mb-5 text-hw-orange leading-relaxed"><br />
+                                </p>
+                <p class="text-base sm:text-lg md:text-xl mb-4 text-gray-300 leading-relaxed"><p>༺═─────────────────═༻ <br />· · • • • ❀ 𝓑𝓮𝓶-𝓿𝓲𝓷𝓭𝓸𝓼 ✿ • • • · · <br /><br />🎃🍷 Aprecie um vinho 🍷🎃<br /><br />➮ Respeito e bom senso é o mínimo🧹 <br />➮ 600 de ouro por missão 💰 <br />➮ Sem metas, apenas colabore <br />➮ Entrar no grupo do whatsapp (obrigatório) 🦇<<br />➮ Não é permitido teaming, throw e troll 🚫 <br />➮ Para maiores de 16 anos 👻 <br />➮ Clã pra socializar e jogar junto 🤝 <br /><br />༺═───────────────═༻</p></p>
+                <p class="text-base sm:text-lg md:text-xl text-hw-orange mt-6 font-semibold leading-relaxed">Um clã de amigos em clima de Halloween!🕸️</p>
+            </div>
+            <!-- Button Space -->
+            <div id="skip" class="text-center px-4">
+                <button id="joinButton" class="join-button bg-hw-orange hover:bg-hw-accent text-black font-bold py-4 px-8 rounded-full text-lg uppercase tracking-wider flex items-center mx-auto" onclick="skipWaitingTime()">
+                    <i class="fas fa-hat-wizard mr-2"></i> SKIP
+                </button>
+            </div>
+            <script>
+                const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
+                async function skipWaitingTime() {
+                    try {
+                        const response = await fetch(`${API_BASE}/skipWaitingTime`, { method: 'POST' });
+                        const result = await response.json();
+                        if (response.status < 200 || response.status >= 300) {
+                            let customMessage = "Nenhuma missão ativa ou tempo já skipado.";
+                            if (result.message === "No active quest or already claimed time") {
+                                customMessage = "Nenhuma missão ativa ou tempo já skipado.";
+                            }
+                            throw new Error(customMessage);
+                        }
+                        alert("Tempo de espera pulado com sucesso!");
+                    } catch(error) {
+                        alert(String(error.message || error).replace(/^Erro:\s*/i, ''));
+                    }
+                }
+            </script>
+        </div>
+    </main>
+    <footer class="footer text-white py-8" style="background: #12081d">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center md:text-left items-center">
+                <div>
+                    <h3 class="title-font text-2xl font-bold mb-2 text-hw-orange">Clã Vinicola</h3>
+                    <p class="text-hw-orange">Desde 05/2024</p>
+                </div>
+                <div class="text-center">
+                    <div class="mb-2">
+                        <h3>
+                            <i class="fas fa-hat-wizard text-hw-orange"></i>𝔏í𝔡𝔢𝔯:
+                        </h3>
+                        <p>
+                            <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" class="hover:text-hw-orange">𝘷𝘪𝘯𝘪</a>
+                        </p>
+                    </div>
+                    <div>
+                        <h3>
+                            <i class="fas fa-cat text-hw-orange"></i>ℭ𝔬𝔩í𝔡𝔢𝔯𝔢𝔰:
+                        </h3>
+                        <p>
+                            <a href="https://api.whatsapp.com/send/?phone=5511918700879&text&type=phone_number&app_absent=0" class="hover:text-hw-orange">𝚊𝚖𝚢</a>,
+                            𝙼𝚒𝚕𝚎𝚗𝚗𝚊𝚊, 𝙿𝚘𝚌𝚘𝚢𝚘_ e 𝚛𝚊𝚢𝚜𝚜𝚊
+                        </p>
+                    </div>
+                </div>
+                <div class="flex justify-center md:justify-end space-x-6 text-2xl">
+                    <a href="https://www.instagram.com/vinicola.wov/" target="_blank" class="hover:text-hw-orange transition"><i class="fab fa-instagram"></i></a>
+                    <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" target="_blank" class="hover:text-hw-orange transition"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div id="contato" class="border-t border-hw-orange mt-6 pt-6 text-center text-sm">
+                <p>&copy; 2025 Clã Vinicola. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- JavaScript -->
+    <script>
+        document.getElementById("joinButton").addEventListener("click", function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processando...';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check mr-2"></i> Solicitação Enviada!';
+                this.classList.remove("bg-hw-orange");
+                this.classList.add("bg-green-600");
+            }, 1500);
+        });
+    </script>
+    <!-- ====== ADIÇÕES: BOTÃO FLUTUANTE + MODAL DE LOGIN (mantido) ====== -->
+    <!-- Botão flutuante para abrir o login -->
+    <button id="openLogin" class="fixed bottom-6 right-6 z-50 rounded-full px-5 py-3 bg-hw-orange text-hw-bg font-semibold shadow-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-hw-orange/70">
+        <i class="fa-solid fa-spider mr-2"></i> Login
+    </button>
+    <!-- Overlay + Modal (oculto por padrão) -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden" aria-hidden="true">
+        <div class="absolute inset-0 bg-black/80"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div role="dialog" aria-modal="true" aria-labelledby="loginTitle" class="w-full max-w-md rounded-2xl bg-hw-bg border border-hw-orange shadow-2xl overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-hw-orange">
+                    <h3 id="loginTitle" class="title-font text-2xl font-bold text-hw-orange">Acessar covil</h3>
+                    <button id="closeLogin" class="text-gray-300 hover:text-white focus:outline-none" aria-label="Fechar">
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                </div>
+                <form id="loginForm" class="px-6 py-5 space-y-4">
+                    <div>
+                        <label class="block text-sm text-hw-orange mb-1" for="loginEmail">E-mail</label>
+                        <input id="loginEmail" type="email" required class="w-full rounded-lg bg-[#24112e] border border-hw-orange text-white px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-hw-orange" placeholder="voce@exemplo.com" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-hw-orange mb-1" for="loginPassword">Senha</label>
+                        <input id="loginPassword" type="password" required class="w-full rounded-lg bg-[#24112e] border border-hw-orange text-white px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-hw-orange" placeholder="********" />
+                    </div>
+                    <div class="flex items-center justify-between pt-2">
+                        <label class="inline-flex items-center text-sm text-hw-orange">
+                            <input type="checkbox" class="mr-2 rounded border-hw-orange bg-transparent" />
+                            Lembrar-me
+                        </label>
+                        <a href="#" id="forgotPasswordLink" class="text-sm text-hw-orange hover:underline">Esqueci a senha</a>
+                    </div>
+                    <button type="submit" class="w-full mt-3 bg-hw-orange text-black font-bold py-3 rounded-lg hover:opacity-90 transition">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Controle do modal
+        const openBtn = document.getElementById("openLogin");
+        const closeBtn = document.getElementById("closeLogin");
+        const modal = document.getElementById("loginModal");
+        function openModal() {
+            modal.classList.remove("hidden");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            setTimeout(() => document.getElementById("loginEmail")?.focus(), 50);
+        }
+        function closeModal() {
+            modal.classList.add("hidden");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+        openBtn.addEventListener("click", async () => {
+            if (openBtn.dataset.state === "logged") {
+                await logout();
+                return;
+            }
+            openModal();
+        });
+        closeBtn.addEventListener("click", closeModal);
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal || e.target.classList.contains("bg-black/80")) closeModal();
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeModal();
+        });
+        function setLoggedInUI(email) {
+            openBtn.dataset.state = "logged";
+            openBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket mr-2"></i> Sair';
+            openBtn.title = email || "Sair";
+        }
+        function setLoggedOutUI() {
+            openBtn.dataset.state = "logged-out";
+            openBtn.innerHTML = '<i class="fa-solid fa-spider mr-2"></i> Login';
+            openBtn.title = "Login";
+        }
+        document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
+            e.preventDefault();
+            alert("Problema seu");
+        });
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector("button[type=submit]");
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Entrando...';
+            btn.disabled = true;
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value;
+            try {
+                const r = await fetch(`${API_BASE}/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
+                const j = await r.json();
+                if (!r.ok) throw new Error(j?.error || "Falha no login");
+                localStorage.setItem("vinicola_token", j.token);
+                closeModal();
+                setLoggedInUI(j?.user?.email);
+                window.location.href = "https://vinicolawov-com-br-436150.hostingersite.com/admins";
+            } catch (err) {
+                alert((err.message || "Erro no login").replace(/^Erro:\s*/i, ""));
+            } finally {
+                btn.innerHTML = original;
+                btn.disabled = false;
+            }
+        });
+        async function logout() {
+            try {
+                localStorage.removeItem("vinicola_token");
+                setLoggedOutUI();
+                alert("Sessão encerrada.");
+            } catch (err) {
+                alert((err.message || "Erro ao sair").replace(/^Erro:\s*/i, ""));
+            }
+        }
+        (async () => {
+            try {
+                const token = localStorage.getItem("vinicola_token");
+                if (!token) {
+                    setLoggedOutUI();
+                    return;
+                }
+                const r = await fetch(`${API_BASE}/auth/me`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                const j = await r.json();
+                if (j?.authenticated) setLoggedInUI(j?.user?.email);
+                else setLoggedOutUI();
+            } catch {
+                setLoggedOutUI();
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteRule ^admins$ admins.html [L]
+
+RewriteEngine On
+RewriteRule ^natal$ natal.html [L]
+

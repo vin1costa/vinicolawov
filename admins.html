@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel Admin - Clã Vinicola</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'wine-dark': '#5E1914',
+            'wine-light': '#8B2E25',
+            'wine-accent': '#A63D2F',
+            'gold': '#D4AF37',
+            'wine-bg': '#2A0A07'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+    body { font-family: 'Montserrat', sans-serif; background-color: #2A0A07; color: #f5f5f5; }
+    .header, .footer { background: linear-gradient(135deg, #5E1914 0%, #8B2E25 100%); }
+    .title-font { font-family: 'Cinzel', serif; }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="header text-white py-6 shadow-lg">
+    <div class="container mx-auto px-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-wine-glass-alt text-3xl text-gold"></i>
+        <h1 class="title-font text-3xl font-bold">Clã <span class="text-gold">Vinicola</span> — <span class="text-white/90">Painel</span></h1>
+      </div>
+      <nav class="w-full md:w-auto">
+        <ul class="flex justify-center md:justify-end space-x-6">
+          <li><a href="/" class="hover:text-gold transition"><i class="fa-solid fa-house mr-2"></i>Home</a></li>
+          <li><button id="logoutBtn" class="hover:text-gold transition"><i class="fa-solid fa-right-from-bracket mr-2"></i>Sair</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-grow">
+    <div class="container mx-auto px-4 py-10">
+      <!-- Guard -->
+      <div id="guardState" class="max-w-3xl mx-auto text-center">
+        <div id="loadingBlock" class="py-16">
+          <i class="fa-solid fa-spinner fa-spin text-3xl text-gold"></i>
+          <p class="mt-3 text-white/80">Verificando sessão…</p>
+        </div>
+        <div id="deniedBlock" class="hidden py-16">
+          <p class="text-xl">Sessão expirada ou inválida.</p>
+          <p id="deniedReason" class="text-sm text-white/70 mt-2"></p>
+          <a href="/" class="mt-6 inline-block bg-gold text-wine-bg font-bold px-6 py-3 rounded-lg hover:opacity-90">
+            Voltar para a Home
+          </a>
+        </div>
+      </div>
+
+      <!-- Conteúdo protegido -->
+      <section id="adminContent" class="hidden">
+        <div class="max-w-5xl mx-auto">
+          <h2 class="title-font text-3xl font-bold mb-6 text-gold">Oi, <span id="adminEmail" class="text-white"></span></h2>
+
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="rounded-2xl bg-[#3a0f0b] border border-wine-light p-6 shadow-xl">
+              <h3 class="title-font text-2xl font-bold mb-2 text-gold">Ações rápidas</h3>
+              <p class="text-white/80 mb-4">Vou fazer coisinhas pra por aqui dps</p>
+              <div class="flex flex-wrap gap-3">
+                <a href="/" class="px-4 py-2 rounded-lg bg-wine-accent hover:bg-wine-dark">Ir para home</a>
+                <button id="logoutBtn2" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700">
+                  <i class="fa-solid fa-right-from-bracket mr-2"></i>Sair
+                </button>
+              </div>
+            </div>
+
+            <div class="rounded-2xl bg-[#3a0f0b] border border-wine-light p-6 shadow-xl">
+              <h3 class="title-font text-2xl font-bold mb-2 text-gold">Status</h3>
+              <p class="text-white/80">Coisas do clã, como últimos skips, últimos donates e tals etc.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer text-white py-8">
+    <div class="container mx-auto px-4 text-center text-sm">
+      <p>&copy; 2025 Clã Vinicola. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ====== Use o MESMO API_BASE do seu login ======
+    const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
+
+    const loadingBlock = document.getElementById('loadingBlock');
+    const deniedBlock  = document.getElementById('deniedBlock');
+    const deniedReason = document.getElementById('deniedReason');
+    const adminContent = document.getElementById('adminContent');
+    const adminEmailEl = document.getElementById('adminEmail');
+
+    (async () => {
+      const token = localStorage.getItem("vinicola_token");
+      console.log("[admins] token no localStorage:", token ? "OK" : "NÃO ENCONTRADO");
+      if (!token) return deny("Token ausente no navegador (faça login na home).");
+
+      try {
+        // Preflight deve responder 204 com ACAO/ACAH corretos:
+        console.log("[admins] chamando /auth/me em:", `${API_BASE}/auth/me`);
+        const r = await fetch(`${API_BASE}/auth/me`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        console.log("[admins] /auth/me status:", r.status);
+        const j = await r.json().catch(() => ({}));
+        console.log("[admins] /auth/me body:", j);
+
+        if (!j?.authenticated) return deny("Resposta do servidor indica não autenticado.");
+
+        // ok
+        adminEmailEl.textContent = j.user?.email || "";
+        loadingBlock.classList.add('hidden');
+        adminContent.classList.remove('hidden');
+      } catch (err) {
+        console.error("[admins] erro no /auth/me:", err);
+        deny("Falha de rede/CORS ao consultar /auth/me (veja Console/Network).");
+      }
+    })();
+
+    function deny(reason) {
+      loadingBlock.classList.add('hidden');
+      deniedBlock.classList.remove('hidden');
+      deniedReason.textContent = reason || "";
+      // Espera 1500ms antes de redirecionar (dá tempo de ler/debugar)
+      setTimeout(() => { window.location.href = "/"; }, 1500);
+    }
+
+    async function doLogout() {
+      try {
+        localStorage.removeItem("vinicola_token");
+        // Opcional: notificar Worker (se um dia usar cookies)
+        // await fetch(`${API_BASE}/auth/logout`, { method: "POST" });
+      } finally {
+        window.location.href = "/";
+      }
+    }
+    document.getElementById('logoutBtn').addEventListener('click', doLogout);
+    document.getElementById('logoutBtn2').addEventListener('click', doLogout);
+  </script>
+</body>
+</html>
