@@ -1,0 +1,544 @@
+/* OBFUSCATED BY CSSOBFUSCATOR.COM at 2024/09/06 02:16:43 */
+header nav ul {
+    list-style-type: none;
+}
+header img {
+    height: 80px;
+}
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: #000000; /* Laranja escuro suave */
+
+}
+#skip {
+    background: url("/assets/imgs/90fc53c9.svg") no-repeat center center/cover;
+}
+#skip, [class~=button] {
+    padding-left: 15pt;
+}
+header nav ul, *, #skip [class~=button], body {
+    margin-left: 0;
+}
+body, [class~=button], header nav ul li a, #contato [class~=contato-content] h3 {
+    color: #fff;
+}
+[class~=button] {
+    background-color: #ec650b; /* Botão com tom de laranja escuro */
+padding: 10px 20px; /* Ajuste no tamanho do botão */
+font-size: 1.2rem; /* Aumenta o texto do botão */
+border-radius: 5px;
+transition: background-color 0.3s ease;
+
+}
+body, * {
+    margin-bottom: 0;
+}
+body, * {
+    margin-right: 0;
+}
+header img, #contato [class~=contato-content] h3 {
+    margin-bottom: .104166667in;
+}
+#skip {
+    padding-bottom: 6.25pc;
+}
+body {
+    margin-top: 0;
+}
+#skip h1 {
+    margin-bottom: 20px;
+}
+body {
+    padding-left: 0;
+}
+body {
+    padding-bottom: 0;
+}
+body {
+    padding-right: 0;
+}
+#contato [class~=contato-content] div, #skip {
+    text-align: center;
+}
+[class~=button] {
+    padding-bottom: .625pc;
+}
+body {
+    padding-top: 0;
+}
+header {
+    background-color: #ec650b; /* Laranja mais escuro */
+
+}
+section, header {
+    padding-left: 20px;
+}
+#skip, header, header nav, section {
+    width: 100%;
+}
+header {
+    padding-bottom: .9375pc;
+}
+#contato [class~=contato-content] h3 {
+    font-size: 1.5rem;
+}
+header {
+    padding-top: .9375pc;
+}
+section, header {
+    display: flex;
+}
+#skip {
+    padding-top: 6.25pc;
+}
+section, header, #skip {
+    flex-direction: column;
+}
+#skip, header, section {
+    align-items: center;
+}
+header nav ul li a {
+    text-decoration: none;
+}
+section, header {
+    justify-content: center;
+}
+section img {
+    max-width: 100%;
+}
+[class~=button] {
+    border-left-width: medium;
+}
+header {
+    z-index: 1000;
+}
+header {
+    position: relative;
+}
+#skip {
+    color: #000;
+}
+section {
+    padding-bottom: 50px;
+    background-color: #000000; /* Laranja intermediário mais escuro */
+
+}
+section {
+    padding-top: 50px;
+}
+#skip {
+    display: block;
+}
+section img {
+    height: auto;
+}
+*, h3, header nav ul, h2 {
+    margin-top: 0;
+}
+#skip p, section img {
+    margin-bottom: 20px;
+}
+section img {
+    border-radius: 7.5pt;
+}
+[class~=button] {
+    border-bottom-width: medium;
+}
+[class~=button] {
+    border-right-width: medium;
+}
+[class~=button] {
+    border-top-width: medium;
+}
+section img {
+    margin-top: .3125in;
+}
+[class~=button] {
+    border-left-style: none;
+}
+[class~=button] {
+    border-bottom-style: none;
+}
+[class~=button] {
+    border-right-style: none;
+}
+section, #skip {
+    overflow: hidden;
+}
+footer, h2, *, h3 {
+    padding-left: 0;
+}
+#contato h1 {
+    margin-bottom: 1.875pc;
+}
+h2, footer p, h3 {
+    margin-left: 0;
+}
+header nav ul, h2, h3 {
+    margin-bottom: 0;
+}
+*, h2, h3 {
+    padding-bottom: 0;
+}
+footer p {
+    margin-bottom: 3.75pt;
+}
+h2, header nav ul, #skip [class~=button], footer p, h3 {
+    margin-right: 0;
+}
+#skip {
+    font-size: x-large;
+}
+[class~=button] {
+    border-top-style: none;
+}
+h2, h3, *, footer {
+    padding-right: 0;
+}
+h3, h2 {
+    padding-top: 0;
+}
+[class~=button] {
+    border-left-color: currentColor;
+}
+footer p {
+    margin-top: 3.75pt;
+}
+#skip {
+    box-sizing: border-box;
+}
+[class~=button] {
+    border-bottom-color: currentColor;
+}
+header nav ul li a {
+    font-weight: 500;
+}
+#contato {
+    background: url("/assets/imgs/wolvesville_large_day.wide3x.png") no-repeat center center/cover;
+}
+[class~=button] {
+    border-right-color: currentColor;
+}
+#contato h1, h2 {
+    font-size: 2.5rem;
+}
+h2 {
+    margin-bottom: 20px;
+}
+h2 {
+    margin-top: 30pt;
+}
+p, h3 {
+    font-size: 1.5rem;
+}
+[class~=button] {
+    border-top-color: currentColor;
+}
+h3 {
+    margin-bottom: .15625in;
+}
+#contato {
+    padding-left: 20px;
+}
+p {
+    line-height: 1.5;
+}
+#contato {
+    padding-bottom: 37.5pt;
+    background-color: #f46c0a; /* Laranja intermediário mais escuro */
+
+}
+p {
+    max-width: 100%;
+}
+footer, p, #contato {
+    text-align: center;
+}
+[class~=button], footer p {
+    font-size: 1rem;
+}
+[class~=button] {
+    border-image: none;
+}
+[class~=button] {
+    border-radius: 5px;
+}
+[class~=button], footer a, a {
+    cursor: pointer;
+}
+#contato {
+    padding-right: 20px;
+}
+p {
+    margin-left: .625pc;
+}
+p {
+    margin-bottom: 0;
+}
+p {
+    margin-right: .625pc;
+}
+a, a:hover {
+    text-decoration: none;
+}
+p {
+    margin-top: 0;
+}
+footer {
+    background-color: #c85509; /* Laranja ainda mais escuro */
+
+
+}
+#contato {
+    padding-top: 37.5pt;
+}
+footer {
+    padding-bottom: 15pt;
+}
+#contato h1, #contato [class~=contato-content] p, footer p, footer a {
+    color: #fff;
+}
+#contato {
+    background-color: #a8490b; /* Laranja ainda mais escuro */
+
+}
+[class~=button] {
+    transition: background-color .3s;
+}
+footer {
+    padding-top: 15pt;
+}
+header nav ul, #contato, #contato [class~=contato-content], footer {
+    display: flex;
+}
+header nav ul {
+    padding-left: 0;
+}
+#contato [class~=contato-content], footer, header nav ul {
+    justify-content: center;
+}
+header nav ul, #contato, footer {
+    align-items: center;
+}
+footer, #contato {
+    flex-direction: column;
+}
+header nav ul, * {
+    padding-top: 0;
+}
+footer a {
+    text-decoration: underline;
+}
+#skip [class~=button] {
+    margin-top: .208333333in;
+}
+#contato [class~=contato-content], header nav ul, footer, #contato {
+    width: 100%;
+}
+* {
+    box-sizing: border-box;
+}
+footer {
+    position: relative;
+}
+header nav ul {
+    padding-bottom: 0;
+}
+header nav ul {
+    padding-right: 0;
+}
+#contato, footer {
+    overflow: hidden;
+}
+a {
+    color: inherit;
+}
+#contato [class~=contato-content] p, header nav ul li a {
+    font-size: 1.2rem;
+}
+header nav ul {
+    flex-direction: row;
+}
+#contato [class~=contato-content] {
+    gap: 1.875pc;
+}
+header nav ul {
+    gap: 15pt;
+}
+.button:hover {
+    background-color: #d8e6f1;
+}
+#contato [class~=contato-content] {
+    max-width: 750pt;
+}
+a:hover {
+    opacity: .8;
+}
+header nav ul li {
+    display: inline-block;
+}
+@media screen and (min-width: 769px) {
+    #vinicola {
+    display: flex;
+}
+#vinicola {
+    justify-content: center;
+}
+#vinicola {
+    align-items: center;
+}
+#vinicola p, #vinicola {
+    text-align: center;
+}
+#vinicola h1 {
+    font-size: 3rem;
+}
+#vinicola h1 {
+    margin-bottom: .208333333in;
+}
+#vinicola img {
+    max-width: 5in; /* ou o tamanho desejado */
+}
+
+#vinicola {
+    padding-left: 15pt;
+}
+#vinicola {
+    padding-bottom: 37.5pt;
+}
+#vinicola {
+    padding-right: 15pt;
+}
+#vinicola {
+    padding-top: 37.5pt;
+}
+
+#vinicola {
+    padding-top: 37.5pt;
+}
+#vinicola {
+    width: 100%;
+}
+#vinicola {
+    max-width: 75pc;
+}
+#vinicola img {
+    height: auto;
+}
+#vinicola {
+    margin-left: auto;
+}
+#vinicola div {
+    max-width: 80%;
+}
+#vinicola {
+    margin-bottom: 0;
+}
+#vinicola {
+    margin-right: auto;
+}
+#vinicola {
+    margin-top: 0;
+}
+#vinicola {
+    flex-direction: column;
+}
+#vinicola p {
+    font-size: 1.5rem;
+}
+#vinicola p {
+    line-height: 1.6;
+}
+}
+@media screen and (max-width: 768px) {
+    #vinicola {
+    padding-left: 15pt;
+}
+#vinicola h1 {
+    font-size: 2.5rem;
+}
+#vinicola {
+    padding-bottom: .520833333in;
+}
+header {
+    flex-wrap: wrap;
+}
+header {
+    padding-left: .625pc;
+}
+header nav ul {
+    flex-direction: row;
+}
+#vinicola h1, section img, #vinicola img {
+    margin-bottom: .208333333in;
+}
+header {
+    padding-bottom: .625pc;
+}
+#contato .contato-content, #vinicola {
+    flex-direction: column;
+}
+#vinicola h1 {
+    color: #fff;
+}
+header nav ul {
+    gap: 11.25pt;
+}
+header {
+    padding-right: .625pc;
+}
+#vinicola h1, #vinicola p, #vinicola {
+    text-align: center;
+}
+header {
+    padding-top: .625pc;
+}
+#vinicola, header {
+    align-items: center;
+}
+#contato .contato-content {
+    gap: 30px;
+}
+#vinicola {
+    padding-right: 15pt;
+}
+#vinicola img {
+    max-width: 100%;
+}
+#vinicola img {
+    height: auto;
+}
+header {
+    justify-content: space-between;
+}
+#vinicola img {
+    border-radius: 7.5pt;
+}
+#vinicola img {
+    margin-top: 1.25pc;
+}
+section img, #contato .contato-content {
+    max-width: 100%;
+}
+#vinicola {
+    padding-top: .520833333in;
+}
+#vinicola {
+    display: flex;
+}
+#vinicola p {
+    font-size: 1.2rem;
+}
+#vinicola p {
+    line-height: 1.5;
+}
+#vinicola, header nav ul {
+    width: 100%;
+}
+header nav ul {
+    justify-content: center;
+}
+#vinicola {
+    overflow: hidden;
+}
+}
