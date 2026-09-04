@@ -354,13 +354,16 @@
         }
 
         function winRate(stats) {
+            if (stats.totalWinCount == null || stats.totalLoseCount == null || stats.totalTieCount == null) return null;
             const total = stats.totalWinCount + stats.totalLoseCount + stats.totalTieCount;
             if (!total) return null;
             return Math.round((stats.totalWinCount / total) * 100);
         }
 
         function statBox(value, label) {
-            if (value === null || value === undefined) return '';
+            if (value === null || value === undefined) {
+                return `<div class="stat-box opacity-50"><div class="stat-value"><i class="fas fa-lock text-sm"></i></div><div class="stat-label">${escapeHtml(label)}</div></div>`;
+            }
             return `<div class="stat-box"><div class="stat-value">${escapeHtml(String(value))}</div><div class="stat-label">${escapeHtml(label)}</div></div>`;
         }
 
@@ -420,11 +423,11 @@
                 <div class="grid grid-cols-2 gap-2 mb-5 text-sm">
                     <div class="stat-box !text-left flex items-center gap-2 !flex-row">
                         <i class="fas fa-heart text-gold/80"></i>
-                        <span class="text-cream/80">${member.receivedRosesCount ?? 0} rosas recebidas</span>
+                        <span class="text-cream/80">${member.receivedRosesCount === null ? 'Rosas recebidas: <span class="opacity-60"><i class="fas fa-lock text-xs"></i> Oculto</span>' : member.receivedRosesCount + ' rosas recebidas'}</span>
                     </div>
                     <div class="stat-box !text-left flex items-center gap-2 !flex-row">
                         <i class="fas fa-paper-plane text-gold/80"></i>
-                        <span class="text-cream/80">${member.sentRosesCount ?? 0} rosas enviadas</span>
+                        <span class="text-cream/80">${member.sentRosesCount === null ? 'Rosas enviadas: <span class="opacity-60"><i class="fas fa-lock text-xs"></i> Oculto</span>' : member.sentRosesCount + ' rosas enviadas'}</span>
                     </div>
                 </div>
 
