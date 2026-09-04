@@ -172,13 +172,10 @@
             </div>
             <nav class="w-full md:w-auto">
                 <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
-                <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
                     <li><a href="#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
-                    <li><a href="membros.html" class="hover:text-gold transition-colors">Membros</a></li>
                     <li><a href="#skip" class="hover:text-gold transition-colors">Skip</a></li>
-                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>                    
-                    <li><a href="doacoes.html" class="hover:text-gold transition-colors">Doações</a></li>
-                </ul>
+                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>
+                    <li><a href="membros.html" class="hover:text-gold transition-colors">Membros</a></li>
                 </ul>
             </nav>
         </div>
@@ -187,7 +184,7 @@
 
     <main class="flex-grow relative z-10">
 
-        <section id="vinicola" class="container mx-auto px-4 pt-16 pb-20 flex flex-col items-center text-center">
+         <section id="vinicola" class="container mx-auto px-4 pt-16 pb-20 flex flex-col items-center text-center">
 
             <div class="wine-float reveal reveal-1 mb-10">
                 <img src="/assets/imgs/winelogo.jpg" alt="Emblema do Clã Vinícola" class="glow-ring rounded-full w-48 h-48 md:w-56 md:h-56 object-cover">
@@ -233,6 +230,19 @@
                         <p class="text-cream/85">Para maiores de 16 anos.</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="skip" class="container mx-auto px-4 pb-24">
+            <div class="reveal reveal-4 max-w-xl mx-auto bg-wine-dark/40 border border-wine-light/30 rounded-2xl p-8 text-center">
+                <i class="fas fa-hourglass-half text-gold text-2xl mb-4"></i>
+                <h3 class="title-font text-xl text-cream mb-2">Skip de etapas de missões</h3>
+                <p class="text-cream/70 text-sm mb-6">Clique no botão para pular o tempo de espera da missão.</p>
+                <button id="joinButton"
+                        class="cta-button bg-wine-light hover:bg-wine text-cream font-semibold py-3.5 px-8 rounded-full inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onclick="skipWaitingTime()">
+                    <i class="fas fa-forward"></i> Pular tempo de espera
+                </button>
             </div>
         </section>
 
@@ -305,6 +315,7 @@
                 <p class="mt-1">Site não oficial do "Wolvesville".</p>
             </div>
         </div>
+    </footer>
 
 
     <button id="openLogin"
@@ -347,7 +358,7 @@
   <a href="#" id="forgotPasswordLink" class="text-sm text-gold hover:underline">Esqueci a senha</a>
 </div>
 
-<div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAABsCG3wuWxoONzoZ" data-theme="dark"></div>
+<div class="cf-turnstile flex justify-center" data-sitekey="COLOQUE_SUA_SITE_KEY_AQUI" data-theme="dark"></div>
 
 
             <button type="submit"
@@ -438,7 +449,7 @@
           setLoggedInUI(j?.user?.email);
 
 
-          window.location.href = "https://vinicolawov-com-br-436150.hostingersite.com/admins";
+          window.location.href = "https://vinicolawov.com.br/admins";
         } catch (err) {
           alert(err.message || "Não foi possível entrar. Tente novamente.");
         } finally {
