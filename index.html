@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self';
-                    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+                    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://challenges.cloudflare.com;
                     style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
                     font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com;
                     img-src 'self' data:;
-                    connect-src 'self' https://vinicolawov.viniciusxp13.workers.dev;
+                    frame-src https://challenges.cloudflare.com;
+                    connect-src 'self' https://vinicolawov.viniciusxp13.workers.dev https://challenges.cloudflare.com;
                     frame-ancestors 'none';
                     base-uri 'self';
                     form-action 'self';">
     <title>Clã Vinícola</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -171,7 +173,8 @@
             <nav class="w-full md:w-auto">
                 <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
                     <li><a href="#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
-                    <li><a href="#skip" class="hover:text-gold transition-colors">Skip</a></li>
+                    <li><a href="membros.html" class="hover:text-gold transition-colors">Membros</a></li>
+                    <li><a href="#skip" class="hover:text-gold transition-colors">Ações</a></li>
                     <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>
                 </ul>
             </nav>
@@ -181,7 +184,7 @@
 
     <main class="flex-grow relative z-10">
 
-        <section id="vinicola" class="container mx-auto px-4 pt-16 pb-20 flex flex-col items-center text-center">
+         <section id="vinicola" class="container mx-auto px-4 pt-16 pb-20 flex flex-col items-center text-center">
 
             <div class="wine-float reveal reveal-1 mb-10">
                 <img src="/assets/imgs/winelogo.jpg" alt="Emblema do Clã Vinícola" class="glow-ring rounded-full w-48 h-48 md:w-56 md:h-56 object-cover">
@@ -355,6 +358,8 @@
   <a href="#" id="forgotPasswordLink" class="text-sm text-gold hover:underline">Esqueci a senha</a>
 </div>
 
+<div class="cf-turnstile flex justify-center" data-sitekey="COLOQUE_SUA_SITE_KEY_AQUI" data-theme="dark"></div>
+
 
             <button type="submit"
                     class="cta-button w-full mt-3 bg-gold text-cellar font-semibold py-3 rounded-lg hover:bg-gold-bright transition-colors">
@@ -426,12 +431,13 @@
 
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
+        const turnstileToken = document.querySelector('.cf-turnstile textarea[name="cf-turnstile-response"]')?.value || "";
 
         try {
           const r = await fetch(`${API_BASE}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password, turnstileToken })
           });
           const j = await r.json();
           if (!r.ok) throw new Error("Não foi possível entrar. Verifique seu e-mail e senha.");
@@ -447,6 +453,7 @@
         } catch (err) {
           alert(err.message || "Não foi possível entrar. Tente novamente.");
         } finally {
+          if (window.turnstile) window.turnstile.reset();
           btn.innerHTML = original;
           btn.disabled = false;
         }
