@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://challenges.cloudflare.com;
+                    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
+                    font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com;
+                    img-src 'self' data:;
+                    frame-src https://challenges.cloudflare.com;
+                    connect-src 'self' https://vinicolawov.viniciusxp13.workers.dev https://challenges.cloudflare.com;
+                    frame-ancestors 'none';
+                    base-uri 'self';
+                    form-action 'self';">
+    <title>Doações — Clã Vinícola</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cellar': '#160503',
+                        'wine-dark': '#3D0F0A',
+                        'wine': '#6B1B14',
+                        'wine-light': '#9A3327',
+                        'gold': '#C9A227',
+                        'gold-bright': '#E4C766',
+                        'cream': '#F1E6D2'
+                    },
+                    fontFamily: {
+                        'display': ['Cinzel', 'serif'],
+                        'body': ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        :root {
+            --cellar: #160503;
+            --wine-dark: #3D0F0A;
+            --wine: #6B1B14;
+            --wine-light: #9A3327;
+            --gold: #C9A227;
+            --gold-bright: #E4C766;
+            --cream: #F1E6D2;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cellar);
+            color: var(--cream);
+            font-weight: 300;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(154,51,39,0.18) 0%, rgba(22,5,3,0) 55%),
+                radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 60%);
+        }
+
+        .title-font { font-family: 'Cinzel', serif; letter-spacing: 0.01em; }
+
+        .vine-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold);
+            opacity: 0.85;
+        }
+        .vine-divider .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+        }
+
+        .reveal { opacity: 0; animation: reveal-up 0.9s cubic-bezier(.2,.7,.2,1) forwards; }
+        @keyframes reveal-up {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+        }
+
+        .rank-badge {
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .rank-leader { background: rgba(201,162,39,0.2); color: var(--gold-bright); border: 1px solid rgba(201,162,39,0.5); }
+        .rank-coleader { background: rgba(154,51,39,0.25); color: #f1cfc7; border: 1px solid rgba(154,51,39,0.5); }
+        .rank-member { background: rgba(241,230,210,0.08); color: rgba(241,230,210,0.7); border: 1px solid rgba(241,230,210,0.15); }
+
+        .donations-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .donations-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(241,230,210,0.55);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(201,162,39,0.25);
+            white-space: nowrap;
+        }
+        .donations-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(241,230,210,0.06);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        .donations-table tbody tr:hover { background: rgba(241,230,210,0.03); }
+
+        .balance-positive { color: #86efac; font-weight: 500; }
+        .balance-negative { color: #f87171; font-weight: 500; }
+        .balance-zero { color: rgba(241,230,210,0.6); }
+
+        .table-scroll { overflow-x: auto; border-radius: 1rem; border: 1px solid rgba(201,162,39,0.25); }
+
+        .skeleton-row td {
+            background: linear-gradient(90deg, rgba(241,230,210,0.04) 25%, rgba(241,230,210,0.08) 37%, rgba(241,230,210,0.04) 63%);
+            background-size: 400% 100%;
+            animation: skeleton-loading 1.4s ease infinite;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0 50%; }
+        }
+
+        html { scroll-behavior: smooth; }
+        ::selection { background: var(--gold); color: var(--cellar); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-40 backdrop-blur bg-cellar/80 border-b border-wine-light/30">
+        <div class="container mx-auto px-4 py-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
+            <a href="index.html" class="flex items-center space-x-3">
+                <i class="fas fa-wine-glass-alt text-2xl text-gold"></i>
+                <h1 class="title-font text-2xl font-semibold text-cream">Clã <span class="text-gold">Vinícola</span></h1>
+            </a>
+            <nav class="w-full md:w-auto">
+                <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
+                    <li><a href="index.html#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
+                    <li><a href="membros.html" class="hover:text-gold transition-colors">Membros</a></li>
+                    <li><a href="doacoes.html" class="text-gold">Doações</a></li>
+                    <li><a href="index.html#contato" class="hover:text-gold transition-colors">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow relative z-10">
+        <section class="container mx-auto px-4 pt-14 pb-6 text-center">
+            <h2 class="reveal title-font text-3xl md:text-4xl font-semibold text-cream mb-3">
+                Saldo de <span class="text-gold">Doações</span>
+            </h2>
+            <p class="reveal text-cream/70 max-w-xl mx-auto text-sm md:text-base">
+                Área restrita à liderança do clã.
+            </p>
+            <div class="vine-divider mt-8 max-w-md mx-auto">
+                <span class="line"></span>
+                <i class="fas fa-coins text-sm"></i>
+                <span class="line"></span>
+            </div>
+        </section>
+
+        <!-- Tela de login, exibida quando não há sessão válida -->
+        <section id="loginGate" class="container mx-auto px-4 pb-20 hidden">
+            <div class="max-w-md mx-auto bg-wine-dark/40 border border-wine-light/30 rounded-2xl p-8">
+                <div class="text-center mb-6">
+                    <i class="fas fa-lock text-gold text-2xl mb-3"></i>
+                    <p class="text-cream/70 text-sm">Faça login para ver o saldo de doações dos membros.</p>
+                </div>
+                <form id="gateLoginForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-cream/70 mb-1" for="gateEmail">E-mail</label>
+                        <input id="gateEmail" type="email" required autocomplete="email"
+                               class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
+                               placeholder="voce@exemplo.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-cream/70 mb-1" for="gatePassword">Senha</label>
+                        <input id="gatePassword" type="password" required autocomplete="current-password"
+                               class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
+                               placeholder="********">
+                    </div>
+                    <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAABsCG3wuWxoONzoZ" data-theme="dark"></div>
+                    <button type="submit"
+                            class="w-full mt-1 bg-gold text-cellar font-semibold py-3 rounded-lg hover:bg-gold-bright transition-colors">
+                        Entrar
+                    </button>
+                    <p id="gateError" class="text-red-400 text-sm text-center hidden"></p>
+                </form>
+            </div>
+        </section>
+
+        <!-- Conteúdo principal, exibido só com sessão válida -->
+        <section id="donationsContent" class="container mx-auto px-4 pb-20 hidden">
+            <div class="max-w-2xl mx-auto mb-6 text-sm text-cream/60 bg-wine-dark/30 border border-wine-light/20 rounded-xl p-4">
+                <p class="mb-1"><i class="fas fa-circle-info text-gold/80 mr-1"></i> Regra de custo por missão:</p>
+                <p>Missão de <strong class="text-cream/80">Ouro</strong>: -600 de saldo de ouro por participação.</p>
+                <p>Missão de <strong class="text-cream/80">Gemas</strong>: -600 de saldo de ouro e -150 de saldo de gemas por participação.</p>
+            </div>
+
+            <div class="table-scroll">
+                <table class="donations-table">
+                    <thead>
+                        <tr>
+                            <th>Membro</th>
+                            <th>Cargo</th>
+                            <th>Missões ouro</th>
+                            <th>Missões gemas</th>
+                            <th>Ouro doado (total)</th>
+                            <th>Gemas doadas (total)</th>
+                            <th>Saldo ouro</th>
+                            <th>Saldo gemas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donationsBody"></tbody>
+                </table>
+            </div>
+            <button id="logoutFromDonations" class="mt-6 text-sm text-cream/50 hover:text-gold transition-colors">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Sair
+            </button>
+        </section>
+
+        <section id="donationsError" class="container mx-auto px-4 pb-20 hidden text-center text-cream/70 py-16">
+            <i class="fas fa-triangle-exclamation text-gold text-3xl mb-4"></i>
+            <p>Não foi possível carregar os dados de doações agora. Tenta de novo em instantes.</p>
+        </section>
+    </main>
+
+    <footer class="relative z-10 border-t border-wine-light/30 bg-wine-dark/30 py-8">
+        <div class="container mx-auto px-4 text-center text-xs text-cream/50">
+            <p>&copy; 2026 Clã Vinícola. Todos os direitos reservados.</p>
+            <p class="mt-1">Site não oficial do "Wolvesville".</p>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
+
+        const RANK_LABEL = { leader: "Líder", coleader: "Colíder", member: "Membro" };
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str ?? '';
+            return div.innerHTML;
+        }
+
+        function balanceClass(value) {
+            if (value > 0) return 'balance-positive';
+            if (value < 0) return 'balance-negative';
+            return 'balance-zero';
+        }
+
+        function formatNumber(value) {
+            return new Intl.NumberFormat('pt-BR').format(value);
+        }
+
+        function donationRow(member) {
+            const rankLabel = RANK_LABEL[member.rank] || 'Membro';
+            return `
+                <tr>
+                    <td class="text-cream font-medium">${escapeHtml(member.username)}</td>
+                    <td><span class="rank-badge rank-${member.rank}">${rankLabel}</span></td>
+                    <td class="text-cream/70">${formatNumber(member.goldQuests)}</td>
+                    <td class="text-cream/70">${formatNumber(member.gemQuests)}</td>
+                    <td class="text-cream/70">${formatNumber(member.donatedGoldAllTime)}</td>
+                    <td class="text-cream/70">${formatNumber(member.donatedGemsAllTime)}</td>
+                    <td class="${balanceClass(member.goldBalance)}">${formatNumber(member.goldBalance)}</td>
+                    <td class="${balanceClass(member.gemBalance)}">${formatNumber(member.gemBalance)}</td>
+                </tr>
+            `;
+        }
+
+        function showGate() {
+            document.getElementById('loginGate').classList.remove('hidden');
+            document.getElementById('donationsContent').classList.add('hidden');
+            document.getElementById('donationsError').classList.add('hidden');
+        }
+
+        function showContent() {
+            document.getElementById('loginGate').classList.add('hidden');
+            document.getElementById('donationsContent').classList.remove('hidden');
+            document.getElementById('donationsError').classList.add('hidden');
+        }
+
+        function showError() {
+            document.getElementById('loginGate').classList.add('hidden');
+            document.getElementById('donationsContent').classList.add('hidden');
+            document.getElementById('donationsError').classList.remove('hidden');
+        }
+
+        async function loadDonations() {
+            const token = localStorage.getItem('vinicola_token');
+            if (!token) {
+                showGate();
+                return;
+            }
+
+            try {
+                const resp = await fetch(`${API_BASE}/clanDonations`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (resp.status === 401) {
+                    localStorage.removeItem('vinicola_token');
+                    showGate();
+                    return;
+                }
+                if (!resp.ok) throw new Error('Falha ao buscar doações');
+
+                const data = await resp.json();
+                document.getElementById('donationsBody').innerHTML = data.members.map(donationRow).join('');
+                showContent();
+            } catch (err) {
+                showError();
+            }
+        }
+
+        document.getElementById('gateLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            const email = document.getElementById('gateEmail').value.trim();
+            const password = document.getElementById('gatePassword').value;
+            const turnstileToken = document.querySelector('.cf-turnstile textarea[name="cf-turnstile-response"]')?.value || "";
+            const errorEl = document.getElementById('gateError');
+            errorEl.classList.add('hidden');
+
+            try {
+                const r = await fetch(`${API_BASE}/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password, turnstileToken })
+                });
+                const j = await r.json();
+                if (!r.ok) throw new Error("Não foi possível entrar. Verifique seu e-mail e senha.");
+
+                localStorage.setItem('vinicola_token', j.token);
+                await loadDonations();
+            } catch (err) {
+                errorEl.textContent = err.message || "Não foi possível entrar.";
+                errorEl.classList.remove('hidden');
+            } finally {
+                btn.innerHTML = original;
+                btn.disabled = false;
+                if (window.turnstile) window.turnstile.reset();
+            }
+        });
+
+        document.getElementById('logoutFromDonations').addEventListener('click', () => {
+            localStorage.removeItem('vinicola_token');
+            showGate();
+        });
+
+        loadDonations();
+    </script>
+
+</body>
+</html>
