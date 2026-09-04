@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self';
-                    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://challenges.cloudflare.com;
+                    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
                     style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
                     font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com;
-                    img-src 'self' data:;
-                    frame-src https://challenges.cloudflare.com;
-                    connect-src 'self' https://vinicolawov.viniciusxp13.workers.dev https://challenges.cloudflare.com;
+                    img-src 'self' data: https:;
+                    connect-src 'self' https://vinicolawov.viniciusxp13.workers.dev;
                     frame-ancestors 'none';
                     base-uri 'self';
                     form-action 'self';">
-    <title>Clã Vinícola</title>
+    <title>Membros — Clã Vinícola</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -62,7 +60,6 @@
             position: relative;
         }
 
-        /* subtle grain + vignette, sits behind all content */
         body::before {
             content: "";
             position: fixed;
@@ -86,7 +83,6 @@
 
         .title-font { font-family: 'Cinzel', serif; letter-spacing: 0.01em; }
 
-        /* hairline divider with center ornament */
         .vine-divider {
             display: flex;
             align-items: center;
@@ -100,65 +96,95 @@
             background: linear-gradient(90deg, transparent, currentColor, transparent);
         }
 
-        .glow-ring {
-            box-shadow: 0 0 0 1px rgba(201,162,39,0.35), 0 20px 60px -15px rgba(0,0,0,0.7);
-        }
-
-        .wine-float { animation: wine-float 7s ease-in-out infinite; }
-        @keyframes wine-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-14px); }
-        }
-
-        /* single orchestrated entrance sequence for the hero */
         .reveal { opacity: 0; animation: reveal-up 0.9s cubic-bezier(.2,.7,.2,1) forwards; }
         .reveal-1 { animation-delay: 0.05s; }
         .reveal-2 { animation-delay: 0.25s; }
-        .reveal-3 { animation-delay: 0.45s; }
-        .reveal-4 { animation-delay: 0.65s; }
         @keyframes reveal-up {
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         @media (prefers-reduced-motion: reduce) {
-            .wine-float, .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+            .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
         }
 
-        /* CTA button: gold sweep on hover, restrained */
-        .cta-button {
-            position: relative;
+        /* card de membro */
+        .member-card {
+            background: linear-gradient(160deg, rgba(61,15,10,0.55), rgba(22,5,3,0.75));
+            border: 1px solid rgba(201,162,39,0.25);
+            border-radius: 1rem;
+            transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+        }
+        .member-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(201,162,39,0.6);
+            box-shadow: 0 16px 40px -18px rgba(0,0,0,0.8);
+        }
+
+        .skin-frame {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 0.75rem;
             overflow: hidden;
-            transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+            background: linear-gradient(160deg, var(--wine), var(--wine-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(201,162,39,0.3);
         }
-        .cta-button::before {
-            content: "";
-            position: absolute;
-            top: 0; left: -60%;
-            width: 40%; height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
-            transform: skewX(-20deg);
-            transition: left .6s ease;
-        }
-        .cta-button:hover::before { left: 130%; }
-        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -10px rgba(154,51,39,0.7); }
+        .skin-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        .rule-item { border-left: 2px solid rgba(201,162,39,0.35); }
+        /* card compacto: limita a largura máxima pra não esticar imagens
+           menores que o disponível na grade, o que causava a perda de nitidez */
+        .member-card { max-width: 150px; margin: 0 auto; width: 100%; cursor: pointer; }
 
-        .roster-avatar {
-            width: 2.5rem; height: 2.5rem;
+        .online-dot {
+            width: 0.6rem; height: 0.6rem;
             border-radius: 9999px;
-            display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, var(--wine), var(--wine-dark));
-            border: 1px solid rgba(201,162,39,0.5);
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            color: var(--gold-bright);
+            background: #4ade80;
+            box-shadow: 0 0 0 3px rgba(74,222,128,0.2);
+            flex-shrink: 0;
+        }
+        .offline-dot {
+            width: 0.6rem; height: 0.6rem;
+            border-radius: 9999px;
+            background: rgba(241,230,210,0.25);
             flex-shrink: 0;
         }
 
-        html { scroll-behavior: smooth; }
+        .rank-badge {
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .rank-leader { background: rgba(201,162,39,0.2); color: var(--gold-bright); border: 1px solid rgba(201,162,39,0.5); }
+        .rank-coleader { background: rgba(154,51,39,0.25); color: #f1cfc7; border: 1px solid rgba(154,51,39,0.5); }
+        .rank-member { background: rgba(241,230,210,0.08); color: rgba(241,230,210,0.7); border: 1px solid rgba(241,230,210,0.15); }
 
+        .skeleton {
+            background: linear-gradient(90deg, rgba(241,230,210,0.06) 25%, rgba(241,230,210,0.12) 37%, rgba(241,230,210,0.06) 63%);
+            background-size: 400% 100%;
+            animation: skeleton-loading 1.4s ease infinite;
+            border-radius: 0.75rem;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0 50%; }
+        }
+
+        /* modal de perfil */
+        .stat-box {
+            background: rgba(241,230,210,0.05);
+            border: 1px solid rgba(201,162,39,0.2);
+            border-radius: 0.6rem;
+            padding: 0.6rem;
+            text-align: center;
+        }
+        .stat-box .stat-value { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold-bright); }
+        .stat-box .stat-label { font-size: 0.65rem; color: rgba(241,230,210,0.6); text-transform: uppercase; letter-spacing: 0.04em; }
+
+        html { scroll-behavior: smooth; }
         ::selection { background: var(--gold); color: var(--cellar); }
     </style>
 </head>
@@ -166,326 +192,294 @@
 
     <header class="sticky top-0 z-40 backdrop-blur bg-cellar/80 border-b border-wine-light/30">
         <div class="container mx-auto px-4 py-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
-            <div class="flex items-center space-x-3">
+            <a href="index.html" class="flex items-center space-x-3">
                 <i class="fas fa-wine-glass-alt text-2xl text-gold"></i>
                 <h1 class="title-font text-2xl font-semibold text-cream">Clã <span class="text-gold">Vinícola</span></h1>
-            </div>
+            </a>
             <nav class="w-full md:w-auto">
                 <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
                     <li><a href="#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
-                    <li><a href="#skip" class="hover:text-gold transition-colors">Skip</a></li>
-                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>
                     <li><a href="membros.html" class="hover:text-gold transition-colors">Membros</a></li>
+                    <li><a href="#skip" class="hover:text-gold transition-colors">Skip</a></li>
+                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>                    
+                    <li><a href="doacoes.html" class="hover:text-gold transition-colors">Doações</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-
     <main class="flex-grow relative z-10">
-
-         <section id="vinicola" class="container mx-auto px-4 pt-16 pb-20 flex flex-col items-center text-center">
-
-            <div class="wine-float reveal reveal-1 mb-10">
-                <img src="/assets/imgs/winelogo.jpg" alt="Emblema do Clã Vinícola" class="glow-ring rounded-full w-48 h-48 md:w-56 md:h-56 object-cover">
-            </div>
-
-            <h2 class="reveal reveal-2 title-font text-4xl md:text-5xl font-semibold text-cream mb-4 max-w-2xl">
-                Bem-vindo ao Clã Vinícola
+        <section class="container mx-auto px-4 pt-14 pb-6 text-center">
+            <h2 class="reveal reveal-1 title-font text-3xl md:text-4xl font-semibold text-cream mb-3">
+                Membros do <span class="text-gold">Clã</span>
             </h2>
-            <p class="reveal reveal-2 text-cream/70 max-w-xl mb-12 text-base md:text-lg">
-                Um clã de amigos, onde criamos memórias inesquecíveis. Venha fazer parte!
+            <p id="clanSummary" class="reveal reveal-2 text-cream/70 max-w-xl mx-auto text-sm md:text-base">
+                Carregando informações do clã…
             </p>
-
-            <div class="reveal reveal-3 w-full max-w-3xl mb-6">
-                <div class="vine-divider mb-8">
-                    <span class="line"></span>
-                    <i class="fas fa-wine-bottle text-sm"></i>
-                    <span class="line"></span>
-                </div>
-
-                <div class="grid sm:grid-cols-2 gap-x-8 gap-y-5 text-left">
-                    <div class="rule-item pl-4">
-                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Convivência</p>
-                        <p class="text-cream/85">Respeito e bom senso é o mínimo.</p>
-                    </div>
-                    <div class="rule-item pl-4">
-                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1"> Preço das Missões</p>
-                        <p class="text-cream/85">600 de ouro por missão 💰.</p>
-                    </div>
-                    <div class="rule-item pl-4">
-                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Metas</p>
-                        <p class="text-cream/85">Sem metas, apenas colabore.</p>
-                    </div>
-                    <div class="rule-item pl-4">
-                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Grupo</p>
-                        <p class="text-cream/85">Entrar no grupo do WhatsApp é <b>obrigatório.</b></p>
-                    </div>
-                    <div class="rule-item pl-4">
-                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Gameplay</p>
-                        <p class="text-cream/85">Teaming, throw e troll não são tolerados 🚫.</p>
-                    </div>
-                    <div class="rule-item pl-4">
-                        <p class="text-sm uppercase tracking-wide text-gold/90 mb-1">Idade mínima</p>
-                        <p class="text-cream/85">Para maiores de 16 anos.</p>
-                    </div>
-                </div>
+            <div class="vine-divider mt-8 max-w-md mx-auto">
+                <span class="line"></span>
+                <i class="fas fa-wine-bottle text-sm"></i>
+                <span class="line"></span>
             </div>
         </section>
 
-        <section id="skip" class="container mx-auto px-4 pb-24">
-            <div class="reveal reveal-4 max-w-xl mx-auto bg-wine-dark/40 border border-wine-light/30 rounded-2xl p-8 text-center">
-                <i class="fas fa-hourglass-half text-gold text-2xl mb-4"></i>
-                <h3 class="title-font text-xl text-cream mb-2">Skip de etapas de missões</h3>
-                <p class="text-cream/70 text-sm mb-6">Clique no botão para pular o tempo de espera da missão.</p>
-                <button id="joinButton"
-                        class="cta-button bg-wine-light hover:bg-wine text-cream font-semibold py-3.5 px-8 rounded-full inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                        onclick="skipWaitingTime()">
-                    <i class="fas fa-forward"></i> Pular tempo de espera
-                </button>
+        <section class="container mx-auto px-4 pb-20">
+            <div id="loadingGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-4">
+                <!-- skeletons injetados via JS -->
+            </div>
+            <div id="membersGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-4 hidden"></div>
+            <div id="errorState" class="hidden text-center text-cream/70 py-16">
+                <i class="fas fa-triangle-exclamation text-gold text-3xl mb-4"></i>
+                <p>Não foi possível carregar os membros do clã agora. Tenta de novo em instantes.</p>
             </div>
         </section>
-
-<script>
-
-  const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
-
-  async function skipWaitingTime() {
-    const btn = document.getElementById('joinButton');
-    if (btn.disabled) return;
-    btn.disabled = true;
-
-    try {
-      const response = await fetch(`${API_BASE}/skipWaitingTime`, {
-        method: "POST" 
-      });
-      const result = await response.json();
-
-      if (response.status < 200 || response.status >= 300) {
-        let customMessage = "Nenhuma missão ativa ou tempo já skipado.";
-        if (result.message === "No active quest or already claimed time") {
-          customMessage = "Nenhuma missão ativa ou tempo já skipado.";
-        }
-        throw new Error(customMessage);
-      }
-
-      alert("Tempo de espera pulado com sucesso!");
-    } catch (error) {
-      alert(String(error.message || error).replace(/^Erro:\s*/i, ''));
-    } finally {
-      btn.disabled = false;
-    }
-  }
-</script>
-
-
     </main>
 
-    <footer class="relative z-10 border-t border-wine-light/30 bg-wine-dark/30 py-10">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left items-start">
-                <div>
-                    <h3 class="title-font text-xl font-semibold text-cream mb-1">Clã Vinícola</h3>
-                    <p class="text-gold text-sm">Desde 05/24</p>
-                </div>
-                <div class="flex flex-col items-center md:items-start gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="text-left">
-                            <p class="text-xs uppercase tracking-wide text-cream/50">Líder</p>
-                            <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" class="text-cream hover:text-gold transition-colors">vini</a>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <div class="text-left">
-                            <p class="text-xs uppercase tracking-wide text-cream/50">Colíderes</p>
-                            <p class="text-cream/90">
-                                <a href="https://api.whatsapp.com/send/?phone=5511918700879&text&type=phone_number&app_absent=0" class="hover:text-gold transition-colors">amy</a>,
-                                Milennaa, Pocoyo_ e Pedrom
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-center md:justify-end items-start gap-6 text-xl">
-                    <a href="https://www.instagram.com/vinicola.wov/" target="_blank" class="text-cream/70 hover:text-gold transition-colors"><i class="fab fa-instagram"></i></a>
-                    <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" target="_blank" class="text-cream/70 hover:text-gold transition-colors"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-            <div id="contato" class="border-t border-wine-light/30 mt-8 pt-6 text-center text-xs text-cream/50">
-                <p>&copy; 2026 Clã Vinícola. Todos os direitos reservados.</p>
-                <p class="mt-1">Site não oficial do "Wolvesville".</p>
-            </div>
-        </div>
-    </footer>
-
-
-    <button id="openLogin"
-            class="fixed bottom-6 right-6 z-50 rounded-full px-5 py-3 bg-gold text-cellar font-semibold shadow-lg hover:bg-gold-bright transition-colors focus:outline-none focus:ring-2 focus:ring-gold/60">
-        <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
-    </button>
-
-
-    <div id="loginModal" class="fixed inset-0 z-50 hidden" aria-hidden="true">
-      <div class="absolute inset-0 bg-black/70"></div>
-      <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div role="dialog" aria-modal="true" aria-labelledby="loginTitle"
-             class="w-full max-w-md rounded-2xl bg-cellar border border-wine-light/40 shadow-2xl overflow-hidden">
+    <div id="profileModal" class="fixed inset-0 z-50 hidden" aria-hidden="true">
+      <div class="absolute inset-0 bg-black/75"></div>
+      <div class="absolute inset-0 flex items-center justify-center p-4 overflow-y-auto">
+        <div role="dialog" aria-modal="true" aria-labelledby="profileModalTitle"
+             class="w-full max-w-lg my-8 rounded-2xl bg-cellar border border-wine-light/40 shadow-2xl overflow-hidden">
           <div class="flex items-center justify-between px-6 py-4 border-b border-wine-light/30">
-            <h3 id="loginTitle" class="title-font text-xl font-semibold text-gold">Acessar conta</h3>
-            <button id="closeLogin" class="text-cream/60 hover:text-cream focus:outline-none" aria-label="Fechar">
+            <h3 id="profileModalTitle" class="title-font text-xl font-semibold text-gold">Perfil do jogador</h3>
+            <button id="closeProfileModal" class="text-cream/60 hover:text-cream focus:outline-none" aria-label="Fechar">
               <i class="fa-solid fa-xmark text-xl"></i>
             </button>
           </div>
-
-          <form id="loginForm" class="px-6 py-5 space-y-4">
-            <div>
-              <label class="block text-sm text-cream/70 mb-1" for="loginEmail">E-mail</label>
-              <input id="loginEmail" type="email" required autocomplete="email"
-                     class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
-                     placeholder="voce@exemplo.com">
-            </div>
-            <div>
-              <label class="block text-sm text-cream/70 mb-1" for="loginPassword">Senha</label>
-              <input id="loginPassword" type="password" required autocomplete="current-password"
-                     class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
-                     placeholder="********">
-            </div>
-
-<div class="flex items-center justify-between pt-2">
-  <label class="inline-flex items-center text-sm text-cream/70">
-    <input type="checkbox" class="mr-2 rounded border-wine-light bg-transparent" />
-    Lembrar-me
-  </label>
-  <a href="#" id="forgotPasswordLink" class="text-sm text-gold hover:underline">Esqueci a senha</a>
-</div>
-
-<div class="cf-turnstile flex justify-center" data-sitekey="COLOQUE_SUA_SITE_KEY_AQUI" data-theme="dark"></div>
-
-
-            <button type="submit"
-                    class="cta-button w-full mt-3 bg-gold text-cellar font-semibold py-3 rounded-lg hover:bg-gold-bright transition-colors">
-              Entrar
-            </button>
-          </form>
+          <div id="profileModalBody" class="px-6 py-6"></div>
         </div>
       </div>
     </div>
 
+    <footer class="relative z-10 border-t border-wine-light/30 bg-wine-dark/30 py-8">
+        <div class="container mx-auto px-4 text-center text-xs text-cream/50">
+            <p>&copy; 2026 Clã Vinícola. Todos os direitos reservados.</p>
+            <p class="mt-1">Site não oficial do "Wolvesville".</p>
+        </div>
+    </footer>
+
     <script>
+        const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
 
-      const openBtn = document.getElementById('openLogin');
-      const closeBtn = document.getElementById('closeLogin');
-      const modal = document.getElementById('loginModal');
+        const RANK_LABEL = { leader: "Líder", coleader: "Colíder", member: "Membro" };
+        const RANK_ICON = { leader: "fa-crown", coleader: "fa-shield-halved", member: "fa-user" };
 
-      function openModal() {
-        modal.classList.remove('hidden');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => document.getElementById('loginEmail')?.focus(), 50);
-      }
-      function closeModal() {
-        modal.classList.add('hidden');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-
-      openBtn.addEventListener('click', async () => {
-
-        if (openBtn.dataset.state === "logged") {
-          await logout();
-          return;
+        function renderSkeletons(count) {
+            const grid = document.getElementById('loadingGrid');
+            grid.innerHTML = Array.from({ length: count }).map(() => `
+                <div class="member-card p-3">
+                    <div class="skeleton aspect-square mb-3"></div>
+                    <div class="skeleton h-4 w-3/4 mb-2"></div>
+                    <div class="skeleton h-3 w-1/2"></div>
+                </div>
+            `).join('');
         }
-        openModal();
-      });
-      closeBtn.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.classList.contains('bg-black/70')) closeModal();
-      });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-      function setLoggedInUI(email) {
-        openBtn.dataset.state = "logged";
-        openBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket mr-2"></i> Sair';
-        openBtn.title = email || "Sair";
-      }
-      function setLoggedOutUI() {
-        openBtn.dataset.state = "logged-out";
-        openBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket mr-2"></i> Login';
-        openBtn.title = "Login";
-      }
-
-      
-
-  document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
-    e.preventDefault();
-    alert("Problema seu");
-
-  });
-
-
-      document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = e.target.querySelector('button[type="submit"]');
-        const original = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Entrando...';
-        btn.disabled = true;
-
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        const turnstileToken = document.querySelector('.cf-turnstile textarea[name="cf-turnstile-response"]')?.value || "";
-
-        try {
-          const r = await fetch(`${API_BASE}/auth/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password, turnstileToken })
-          });
-          const j = await r.json();
-          if (!r.ok) throw new Error("Não foi possível entrar. Verifique seu e-mail e senha.");
-
-
-          localStorage.setItem("vinicola_token", j.token);
-
-          closeModal();
-          setLoggedInUI(j?.user?.email);
-
-
-          window.location.href = "https://vinicolawov.com.br/admins";
-        } catch (err) {
-          alert(err.message || "Não foi possível entrar. Tente novamente.");
-        } finally {
-          if (window.turnstile) window.turnstile.reset();
-          btn.innerHTML = original;
-          btn.disabled = false;
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str ?? '';
+            return div.innerHTML;
         }
-      });
 
-      // Logout (apaga token local)
-      async function logout() {
-        try {
-          localStorage.removeItem("vinicola_token");
-
-          setLoggedOutUI();
-          alert("Sessão encerrada.");
-        } catch (err) {
-          alert((err.message || "Erro ao sair").replace(/^Erro:\s*/i, ''));
+        function levelLabel(member) {
+            if (member.level === null || member.level === undefined) {
+                return `Nível <i class="fas fa-lock text-xs opacity-60"></i>`;
+            }
+            return `Nível ${escapeHtml(String(member.level))}`;
         }
-      }
 
+        function memberCard(member) {
+            const rankClass = `rank-${member.rank}`;
+            const rankLabel = RANK_LABEL[member.rank] || 'Membro';
+            const rankIcon = RANK_ICON[member.rank] || 'fa-user';
+            const dotClass = member.online ? 'online-dot' : 'offline-dot';
+            const statusLabel = member.online ? 'Online' : 'Offline';
 
-      (async () => {
-        try {
-          const token = localStorage.getItem("vinicola_token");
-          if (!token) { setLoggedOutUI(); return; }
-          const r = await fetch(`${API_BASE}/auth/me`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          const j = await r.json();
-          if (j?.authenticated) setLoggedInUI(j?.user?.email);
-          else setLoggedOutUI();
-        } catch {
-          setLoggedOutUI();
+            const skinContent = member.skinImageUrl
+                ? `<img src="${escapeHtml(member.skinImageUrl)}" alt="Skin de ${escapeHtml(member.username)}" loading="lazy">`
+                : `<i class="fas fa-user-astronaut text-4xl text-cream/30"></i>`;
+
+            return `
+                <div class="member-card p-3 flex flex-col" data-member-id="${escapeHtml(member.id)}" onclick="openProfileModal('${escapeHtml(member.id)}')">
+                    <div class="skin-frame mb-3">${skinContent}</div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="${dotClass}" title="${statusLabel}"></span>
+                        <h3 class="title-font text-sm font-semibold text-cream truncate" title="${escapeHtml(member.username)}">
+                            ${escapeHtml(member.username)}
+                        </h3>
+                    </div>
+                    <div class="flex items-center justify-between mt-1">
+                        <span class="text-xs text-cream/60">${levelLabel(member)}</span>
+                        <span class="rank-badge ${rankClass}"><i class="fas ${rankIcon} mr-1"></i>${rankLabel}</span>
+                    </div>
+                    ${member.flair ? `<p class="text-xs text-gold/80 italic mt-2 truncate" title="${escapeHtml(member.flair)}">"${escapeHtml(member.flair)}"</p>` : ''}
+                </div>
+            `;
         }
-      })();
+
+        async function loadMembers() {
+            renderSkeletons(10);
+            try {
+                const resp = await fetch(`${API_BASE}/clanMembers`);
+                if (!resp.ok) throw new Error('Falha ao buscar membros');
+                const data = await resp.json();
+
+                loadedMembers = data.members;
+
+                document.getElementById('clanSummary').textContent =
+                    `${data.clan?.name || 'Clã Vinícola'} • ${data.clan?.memberCount ?? data.members.length} membros`;
+
+                const grid = document.getElementById('membersGrid');
+                grid.innerHTML = data.members.map(memberCard).join('');
+
+                document.getElementById('loadingGrid').classList.add('hidden');
+                grid.classList.remove('hidden');
+            } catch (err) {
+                document.getElementById('loadingGrid').classList.add('hidden');
+                document.getElementById('errorState').classList.remove('hidden');
+                document.getElementById('clanSummary').textContent = 'Clã Vinícola';
+            }
+        }
+
+        // ---------- Modal de perfil ----------
+
+        let loadedMembers = [];
+
+        const dateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Desconhecido';
+            return dateFormatter.format(new Date(timestamp));
+        }
+
+        function formatPlayTime(minutes) {
+            if (minutes == null) return null;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 1) return `${minutes} min`;
+            const days = Math.floor(hours / 24);
+            if (days < 1) return `${hours}h`;
+            return `${days}d ${hours % 24}h`;
+        }
+
+        function winRate(stats) {
+            if (stats.totalWinCount == null || stats.totalLoseCount == null || stats.totalTieCount == null) return null;
+            const total = stats.totalWinCount + stats.totalLoseCount + stats.totalTieCount;
+            if (!total) return null;
+            return Math.round((stats.totalWinCount / total) * 100);
+        }
+
+        function statBox(value, label) {
+            if (value === null || value === undefined) {
+                return `<div class="stat-box opacity-50"><div class="stat-value"><i class="fas fa-lock text-sm"></i></div><div class="stat-label">${escapeHtml(label)}</div></div>`;
+            }
+            return `<div class="stat-box"><div class="stat-value">${escapeHtml(String(value))}</div><div class="stat-label">${escapeHtml(label)}</div></div>`;
+        }
+
+        function profileModalContent(member) {
+            const rankLabel = RANK_LABEL[member.rank] || 'Membro';
+            const rankIcon = RANK_ICON[member.rank] || 'fa-user';
+            const statusLabel = member.online ? 'Online agora' : 'Offline';
+            const dotClass = member.online ? 'online-dot' : 'offline-dot';
+
+            const imageUrl = member.skinImageUrl || member.profileImageUrl;
+            const imageBlock = imageUrl
+                ? `<img src="${escapeHtml(imageUrl)}" alt="Skin de ${escapeHtml(member.username)}" class="w-full h-full object-cover">`
+                : `<i class="fas fa-user-astronaut text-5xl text-cream/30"></i>`;
+
+            const gs = member.gameStats;
+            let statsBlock = '<p class="text-sm text-cream/50 text-center py-4">Sem estatísticas de partidas disponíveis.</p>';
+            if (gs) {
+                const rate = winRate(gs);
+                const playTime = formatPlayTime(gs.totalPlayTimeInMinutes);
+                statsBlock = `
+                    <div class="grid grid-cols-3 gap-2 mb-3">
+                        ${statBox(gs.totalWinCount, 'Vitórias')}
+                        ${statBox(gs.totalLoseCount, 'Derrotas')}
+                        ${statBox(rate !== null ? rate + '%' : null, 'Taxa de vitória')}
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mb-3">
+                        ${statBox(gs.villageWinCount, 'Vitórias Vila')}
+                        ${statBox(gs.werewolfWinCount, 'Vitórias Lobo')}
+                        ${statBox(gs.soloWinCount, 'Vitórias Solo')}
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        ${statBox(gs.gamesSurvivedCount, 'Sobreviveu')}
+                        ${statBox(gs.gamesKilledCount, 'Eliminações')}
+                        ${statBox(playTime, 'Tempo jogado')}
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="flex items-center gap-4 mb-5">
+                    <div class="skin-frame flex-shrink-0" style="width:90px;height:90px;max-width:90px;">${imageBlock}</div>
+                    <div class="min-w-0">
+                        <h4 class="title-font text-lg font-semibold text-cream truncate">${escapeHtml(member.username)}</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="${dotClass}"></span>
+                            <span class="text-xs text-cream/60">${statusLabel}</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="rank-badge rank-${member.rank}"><i class="fas ${rankIcon} mr-1"></i>${rankLabel}</span>
+                            <span class="text-xs text-cream/60">${levelLabel(member)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                ${member.flair ? `<p class="text-sm text-gold/90 italic border-l-2 border-gold/40 pl-3 mb-5">"${escapeHtml(member.flair)}"</p>` : ''}
+
+                <div class="grid grid-cols-2 gap-2 mb-5 text-sm">
+                    <div class="stat-box !text-left flex items-center gap-2 !flex-row">
+                        <i class="fas fa-heart text-gold/80"></i>
+                        <span class="text-cream/80">${member.receivedRosesCount === null ? 'Rosas recebidas: <span class="opacity-60"><i class="fas fa-lock text-xs"></i> Oculto</span>' : member.receivedRosesCount + ' rosas recebidas'}</span>
+                    </div>
+                    <div class="stat-box !text-left flex items-center gap-2 !flex-row">
+                        <i class="fas fa-paper-plane text-gold/80"></i>
+                        <span class="text-cream/80">${member.sentRosesCount === null ? 'Rosas enviadas: <span class="opacity-60"><i class="fas fa-lock text-xs"></i> Oculto</span>' : member.sentRosesCount + ' rosas enviadas'}</span>
+                    </div>
+                </div>
+
+                <div class="vine-divider mb-4">
+                    <span class="line"></span>
+                    <span class="text-xs uppercase tracking-wide">Estatísticas de partidas</span>
+                    <span class="line"></span>
+                </div>
+                ${statsBlock}
+
+                <div class="grid grid-cols-2 gap-4 mt-5 text-xs text-cream/60">
+                    <div><i class="fas fa-calendar-plus mr-1 text-gold/70"></i> Conta criada em ${formatDate(member.createdTimestamp)}</div>
+                    <div><i class="fas fa-clock mr-1 text-gold/70"></i> Última vez online: ${member.online ? 'agora' : formatDate(member.lastOnlineTimestamp)}</div>
+                </div>
+            `;
+        }
+
+        function openProfileModal(memberId) {
+            const member = loadedMembers.find(m => m.id === memberId);
+            if (!member) return;
+
+            document.getElementById('profileModalBody').innerHTML = profileModalContent(member);
+            document.getElementById('profileModalTitle').textContent = member.username;
+
+            const modal = document.getElementById('profileModal');
+            modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('closeProfileModal').addEventListener('click', closeProfileModal);
+        document.getElementById('profileModal').addEventListener('click', (e) => {
+            if (e.target.id === 'profileModal' || e.target.classList.contains('bg-black/75')) closeProfileModal();
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeProfileModal(); });
+
+        loadMembers();
     </script>
 
 </body>
