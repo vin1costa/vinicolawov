@@ -1,3 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+                    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
+                    font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com;
+                    img-src 'self' data:;
+                    connect-src 'self' https://vinicolawov.viniciusxp13.workers.dev;
+                    frame-ancestors 'none';
+                    base-uri 'self';
+                    form-action 'self';">
+    <title>Clã Vinícola</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cellar': '#160503',
+                        'wine-dark': '#3D0F0A',
+                        'wine': '#6B1B14',
+                        'wine-light': '#9A3327',
+                        'gold': '#C9A227',
+                        'gold-bright': '#E4C766',
+                        'cream': '#F1E6D2'
+                    },
+                    fontFamily: {
+                        'display': ['Cinzel', 'serif'],
+                        'body': ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        :root {
+            --cellar: #160503;
+            --wine-dark: #3D0F0A;
+            --wine: #6B1B14;
+            --wine-light: #9A3327;
+            --gold: #C9A227;
+            --gold-bright: #E4C766;
+            --cream: #F1E6D2;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cellar);
+            color: var(--cream);
+            font-weight: 300;
+            position: relative;
+        }
+
+        /* subtle grain + vignette, sits behind all content */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(154,51,39,0.18) 0%, rgba(22,5,3,0) 55%),
+                radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 60%);
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        }
+
+        .title-font { font-family: 'Cinzel', serif; letter-spacing: 0.01em; }
+
+        /* hairline divider with center ornament */
+        .vine-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold);
+            opacity: 0.85;
+        }
+        .vine-divider .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+        }
+
+        .glow-ring {
+            box-shadow: 0 0 0 1px rgba(201,162,39,0.35), 0 20px 60px -15px rgba(0,0,0,0.7);
+        }
+
+        .wine-float { animation: wine-float 7s ease-in-out infinite; }
+        @keyframes wine-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+
+        /* single orchestrated entrance sequence for the hero */
+        .reveal { opacity: 0; animation: reveal-up 0.9s cubic-bezier(.2,.7,.2,1) forwards; }
+        .reveal-1 { animation-delay: 0.05s; }
+        .reveal-2 { animation-delay: 0.25s; }
+        .reveal-3 { animation-delay: 0.45s; }
+        .reveal-4 { animation-delay: 0.65s; }
+        @keyframes reveal-up {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wine-float, .reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+        }
+
+        /* CTA button: gold sweep on hover, restrained */
+        .cta-button {
+            position: relative;
+            overflow: hidden;
+            transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+        }
+        .cta-button::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -60%;
+            width: 40%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-20deg);
+            transition: left .6s ease;
+        }
+        .cta-button:hover::before { left: 130%; }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -10px rgba(154,51,39,0.7); }
+
+        .rule-item { border-left: 2px solid rgba(201,162,39,0.35); }
+
+        .roster-avatar {
+            width: 2.5rem; height: 2.5rem;
+            border-radius: 9999px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, var(--wine), var(--wine-dark));
+            border: 1px solid rgba(201,162,39,0.5);
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--gold-bright);
+            flex-shrink: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        ::selection { background: var(--gold); color: var(--cellar); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-40 backdrop-blur bg-cellar/80 border-b border-wine-light/30">
+        <div class="container mx-auto px-4 py-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-wine-glass-alt text-2xl text-gold"></i>
+                <h1 class="title-font text-2xl font-semibold text-cream">Clã <span class="text-gold">Vinícola</span></h1>
+            </div>
+            <nav class="w-full md:w-auto">
+                <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
+                    <li><a href="#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
+                    <li><a href="#skip" class="hover:text-gold transition-colors">Skip</a></li>
+                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="flex-grow relative z-10">
+
         <section id="vinicola" class="container mx-auto px-4 pt-16 pb-20 flex flex-col items-center text-center">
 
             <div class="wine-float reveal reveal-1 mb-10">
@@ -46,3 +229,257 @@
                 </div>
             </div>
         </section>
+
+        <section id="skip" class="container mx-auto px-4 pb-24">
+            <div class="reveal reveal-4 max-w-xl mx-auto bg-wine-dark/40 border border-wine-light/30 rounded-2xl p-8 text-center">
+                <i class="fas fa-hourglass-half text-gold text-2xl mb-4"></i>
+                <h3 class="title-font text-xl text-cream mb-2">Skip de etapas de missões</h3>
+                <p class="text-cream/70 text-sm mb-6">Clique no botão para pular o tempo de espera da missão.</p>
+                <button id="joinButton"
+                        class="cta-button bg-wine-light hover:bg-wine text-cream font-semibold py-3.5 px-8 rounded-full inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onclick="skipWaitingTime()">
+                    <i class="fas fa-forward"></i> Pular tempo de espera
+                </button>
+            </div>
+        </section>
+
+<script>
+
+  const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
+
+  async function skipWaitingTime() {
+    const btn = document.getElementById('joinButton');
+    if (btn.disabled) return;
+    btn.disabled = true;
+
+    try {
+      const response = await fetch(`${API_BASE}/skipWaitingTime`, {
+        method: "POST" 
+      });
+      const result = await response.json();
+
+      if (response.status < 200 || response.status >= 300) {
+        let customMessage = "Nenhuma missão ativa ou tempo já skipado.";
+        if (result.message === "No active quest or already claimed time") {
+          customMessage = "Nenhuma missão ativa ou tempo já skipado.";
+        }
+        throw new Error(customMessage);
+      }
+
+      alert("Tempo de espera pulado com sucesso!");
+    } catch (error) {
+      alert(String(error.message || error).replace(/^Erro:\s*/i, ''));
+    } finally {
+      btn.disabled = false;
+    }
+  }
+</script>
+
+
+    </main>
+
+    <footer class="relative z-10 border-t border-wine-light/30 bg-wine-dark/30 py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left items-start">
+                <div>
+                    <h3 class="title-font text-xl font-semibold text-cream mb-1">Clã Vinícola</h3>
+                    <p class="text-gold text-sm">Desde 05/24</p>
+                </div>
+                <div class="flex flex-col items-center md:items-start gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="text-left">
+                            <p class="text-xs uppercase tracking-wide text-cream/50">Líder</p>
+                            <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" class="text-cream hover:text-gold transition-colors">vini</a>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="text-left">
+                            <p class="text-xs uppercase tracking-wide text-cream/50">Colíderes</p>
+                            <p class="text-cream/90">
+                                <a href="https://api.whatsapp.com/send/?phone=5511918700879&text&type=phone_number&app_absent=0" class="hover:text-gold transition-colors">amy</a>,
+                                Milennaa, Pocoyo_ e Pedrom
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center md:justify-end items-start gap-6 text-xl">
+                    <a href="https://www.instagram.com/vinicola.wov/" target="_blank" class="text-cream/70 hover:text-gold transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="https://api.whatsapp.com/send/?phone=5511982828693&text&type=phone_number&app_absent=0" target="_blank" class="text-cream/70 hover:text-gold transition-colors"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div id="contato" class="border-t border-wine-light/30 mt-8 pt-6 text-center text-xs text-cream/50">
+                <p>&copy; 2026 Clã Vinícola. Todos os direitos reservados.</p>
+                <p class="mt-1">Site não oficial do "Wolvesville".</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <button id="openLogin"
+            class="fixed bottom-6 right-6 z-50 rounded-full px-5 py-3 bg-gold text-cellar font-semibold shadow-lg hover:bg-gold-bright transition-colors focus:outline-none focus:ring-2 focus:ring-gold/60">
+        <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
+    </button>
+
+
+    <div id="loginModal" class="fixed inset-0 z-50 hidden" aria-hidden="true">
+      <div class="absolute inset-0 bg-black/70"></div>
+      <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div role="dialog" aria-modal="true" aria-labelledby="loginTitle"
+             class="w-full max-w-md rounded-2xl bg-cellar border border-wine-light/40 shadow-2xl overflow-hidden">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-wine-light/30">
+            <h3 id="loginTitle" class="title-font text-xl font-semibold text-gold">Acessar conta</h3>
+            <button id="closeLogin" class="text-cream/60 hover:text-cream focus:outline-none" aria-label="Fechar">
+              <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+          </div>
+
+          <form id="loginForm" class="px-6 py-5 space-y-4">
+            <div>
+              <label class="block text-sm text-cream/70 mb-1" for="loginEmail">E-mail</label>
+              <input id="loginEmail" type="email" required autocomplete="email"
+                     class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
+                     placeholder="voce@exemplo.com">
+            </div>
+            <div>
+              <label class="block text-sm text-cream/70 mb-1" for="loginPassword">Senha</label>
+              <input id="loginPassword" type="password" required autocomplete="current-password"
+                     class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
+                     placeholder="********">
+            </div>
+
+<div class="flex items-center justify-between pt-2">
+  <label class="inline-flex items-center text-sm text-cream/70">
+    <input type="checkbox" class="mr-2 rounded border-wine-light bg-transparent" />
+    Lembrar-me
+  </label>
+  <a href="#" id="forgotPasswordLink" class="text-sm text-gold hover:underline">Esqueci a senha</a>
+</div>
+
+
+            <button type="submit"
+                    class="cta-button w-full mt-3 bg-gold text-cellar font-semibold py-3 rounded-lg hover:bg-gold-bright transition-colors">
+              Entrar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      const openBtn = document.getElementById('openLogin');
+      const closeBtn = document.getElementById('closeLogin');
+      const modal = document.getElementById('loginModal');
+
+      function openModal() {
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => document.getElementById('loginEmail')?.focus(), 50);
+      }
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      openBtn.addEventListener('click', async () => {
+
+        if (openBtn.dataset.state === "logged") {
+          await logout();
+          return;
+        }
+        openModal();
+      });
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('bg-black/70')) closeModal();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+      function setLoggedInUI(email) {
+        openBtn.dataset.state = "logged";
+        openBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket mr-2"></i> Sair';
+        openBtn.title = email || "Sair";
+      }
+      function setLoggedOutUI() {
+        openBtn.dataset.state = "logged-out";
+        openBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket mr-2"></i> Login';
+        openBtn.title = "Login";
+      }
+
+      
+
+  document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("Problema seu");
+
+  });
+
+
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Entrando...';
+        btn.disabled = true;
+
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        try {
+          const r = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+          });
+          const j = await r.json();
+          if (!r.ok) throw new Error("Não foi possível entrar. Verifique seu e-mail e senha.");
+
+
+          localStorage.setItem("vinicola_token", j.token);
+
+          closeModal();
+          setLoggedInUI(j?.user?.email);
+
+
+          window.location.href = "https://vinicolawov.com.br/admins";
+        } catch (err) {
+          alert(err.message || "Não foi possível entrar. Tente novamente.");
+        } finally {
+          btn.innerHTML = original;
+          btn.disabled = false;
+        }
+      });
+
+      // Logout (apaga token local)
+      async function logout() {
+        try {
+          localStorage.removeItem("vinicola_token");
+
+          setLoggedOutUI();
+          alert("Sessão encerrada.");
+        } catch (err) {
+          alert((err.message || "Erro ao sair").replace(/^Erro:\s*/i, ''));
+        }
+      }
+
+
+      (async () => {
+        try {
+          const token = localStorage.getItem("vinicola_token");
+          if (!token) { setLoggedOutUI(); return; }
+          const r = await fetch(`${API_BASE}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          const j = await r.json();
+          if (j?.authenticated) setLoggedInUI(j?.user?.email);
+          else setLoggedOutUI();
+        } catch {
+          setLoggedOutUI();
+        }
+      })();
+    </script>
+
+</body>
+</html>
