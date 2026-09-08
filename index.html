@@ -174,8 +174,9 @@
                 <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
                     <li><a href="#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
                     <li><a href="#skip" class="hover:text-gold transition-colors">Skip</a></li>
-                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>
+                    <li><a href="doacoes.html" class="hover:text-gold transition-colors">Doações</a></li>
                     <li><a href="membros.html" class="hover:text-gold transition-colors">Membros</a></li>
+                    <li><a href="#contato" class="hover:text-gold transition-colors">Contato</a></li>
                 </ul>
             </nav>
         </div>
@@ -431,7 +432,7 @@
 
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
-        const turnstileToken = document.querySelector('.cf-turnstile textarea[name="cf-turnstile-response"]')?.value || "";
+        const turnstileToken = document.querySelector('.cf-turnstile input[name="cf-turnstile-response"]')?.value || "";
 
         try {
           const r = await fetch(`${API_BASE}/auth/login`, {
@@ -449,7 +450,7 @@
           setLoggedInUI(j?.user?.email);
 
 
-          window.location.href = "https://vinicolawov.com.br/admins";
+          window.location.href = "https://vinicolawov-com-br-436150.hostingersite.com/admins";
         } catch (err) {
           alert(err.message || "Não foi possível entrar. Tente novamente.");
         } finally {
