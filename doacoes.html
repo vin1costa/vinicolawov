@@ -138,6 +138,17 @@
 
         .table-scroll { overflow-x: auto; border-radius: 1rem; border: 1px solid rgba(201,162,39,0.25); }
 
+        .adjust-input {
+            width: 5.5rem;
+            background: rgba(241,230,210,0.06);
+            border: 1px solid rgba(201,162,39,0.3);
+            border-radius: 0.4rem;
+            color: var(--cream);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        .adjust-input:focus { outline: none; border-color: var(--gold); }
+
         .skeleton-row td {
             background: linear-gradient(90deg, rgba(241,230,210,0.04) 25%, rgba(241,230,210,0.08) 37%, rgba(241,230,210,0.04) 63%);
             background-size: 400% 100%;
@@ -156,15 +167,15 @@
 
     <header class="sticky top-0 z-40 backdrop-blur bg-cellar/80 border-b border-wine-light/30">
         <div class="container mx-auto px-4 py-4 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-4 text-center md:text-left">
-            <div class="flex items-center space-x-3">
+            <a href="index.html" class="flex items-center space-x-3">
                 <i class="fas fa-wine-glass-alt text-2xl text-gold"></i>
                 <h1 class="title-font text-2xl font-semibold text-cream">Clã <span class="text-gold">Vinícola</span></h1>
-            </div>
+            </a>
             <nav class="w-full md:w-auto">
                 <ul class="flex justify-center md:justify-end space-x-8 text-sm tracking-wide text-cream/80 font-body">
                     <li><a href="index.html#vinicola" class="hover:text-gold transition-colors">Vinícola</a></li>
                     <li><a href="index.html#skip" class="hover:text-gold transition-colors">Skip</a></li>
-                    <li><a href="doacoes.html" class="hover:text-gold transition-colors">Doações</a></li>
+                    <li><a href="doacoes.html" class="text-gold">Doações</a></li>
                     <li><a href="membros.html" class="hover:text-gold transition-colors">Membros</a></li>
                     <li><a href="index.html#contato" class="hover:text-gold transition-colors">Contato</a></li>
                 </ul>
@@ -207,7 +218,7 @@
                                class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold"
                                placeholder="********">
                     </div>
-                    <div class="cf-turnstile flex justify-center" data-sitekey="0x4AAAAAABsCG3wuWxoONzoZ" data-theme="dark"></div>
+                    <div class="cf-turnstile flex justify-center" data-sitekey="COLOQUE_SUA_SITE_KEY_AQUI" data-theme="dark"></div>
                     <button type="submit"
                             class="w-full mt-1 bg-gold text-cellar font-semibold py-3 rounded-lg hover:bg-gold-bright transition-colors">
                         Entrar
@@ -223,6 +234,27 @@
                 <p class="mb-1"><i class="fas fa-circle-info text-gold/80 mr-1"></i> Regra de custo por missão:</p>
                 <p>Missão de <strong class="text-cream/80">Ouro</strong>: -600 de saldo de ouro por participação.</p>
                 <p>Missão de <strong class="text-cream/80">Gemas</strong>: -600 de saldo de ouro e -150 de saldo de gemas por participação.</p>
+                <p class="mt-2">Os campos de <strong class="text-cream/80">ajuste manual</strong> somam ou subtraem em cima desse cálculo — use pra eventos, prêmios ou penalidades que não vêm da API.</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto mb-6">
+                <button id="toggleBulkPaste" type="button" class="text-sm text-gold hover:text-gold-bright transition-colors">
+                    <i class="fas fa-paste mr-1"></i> Colar ajustes em massa
+                </button>
+                <div id="bulkPasteBox" class="hidden mt-3 bg-wine-dark/30 border border-wine-light/20 rounded-xl p-4">
+                    <p class="text-xs text-cream/50 mb-2">
+                        Cole no formato <code class="text-gold/80">nome = +600 💰 -150 💎</code>, uma linha por membro. O sinal de + ou - antes do número é o que importa; 👎 é ignorado.
+                    </p>
+                    <textarea id="bulkPasteInput" rows="6"
+                              class="w-full rounded-lg bg-wine-dark/50 border border-wine-light/40 text-cream text-sm px-3 py-2 placeholder-cream/30 focus:outline-none focus:ring-2 focus:ring-gold font-mono"
+                              placeholder="cigarros = -3000 💰&#10;costakaua = + 19660 💰"></textarea>
+                    <div class="flex items-center gap-3 mt-3">
+                        <button id="applyBulkPaste" type="button" class="bg-gold text-cellar font-semibold py-2 px-4 rounded-lg text-sm hover:bg-gold-bright transition-colors">
+                            Aplicar na tabela
+                        </button>
+                        <span id="bulkPasteResult" class="text-xs text-cream/50"></span>
+                    </div>
+                </div>
             </div>
 
             <div class="table-scroll">
@@ -235,13 +267,25 @@
                             <th>Missões gemas</th>
                             <th>Ouro doado (total)</th>
                             <th>Gemas doadas (total)</th>
-                            <th>Saldo ouro</th>
-                            <th>Saldo gemas</th>
+                            <th>Saldo calculado ouro</th>
+                            <th>Saldo calculado gemas</th>
+                            <th>Ajuste ouro</th>
+                            <th>Ajuste gemas</th>
+                            <th>Saldo final ouro</th>
+                            <th>Saldo final gemas</th>
                         </tr>
                     </thead>
                     <tbody id="donationsBody"></tbody>
                 </table>
             </div>
+
+            <div class="flex items-center gap-4 mt-6">
+                <button id="saveAdjustments" type="button" class="bg-gold text-cellar font-semibold py-2.5 px-5 rounded-lg text-sm hover:bg-gold-bright transition-colors">
+                    <i class="fas fa-floppy-disk mr-1"></i> Salvar ajustes
+                </button>
+                <span id="saveAdjustmentsStatus" class="text-sm text-cream/50"></span>
+            </div>
+
             <button id="logoutFromDonations" class="mt-6 text-sm text-cream/50 hover:text-gold transition-colors">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i> Sair
             </button>
@@ -250,6 +294,7 @@
         <section id="donationsError" class="container mx-auto px-4 pb-20 hidden text-center text-cream/70 py-16">
             <i class="fas fa-triangle-exclamation text-gold text-3xl mb-4"></i>
             <p>Não foi possível carregar os dados de doações agora. Tenta de novo em instantes.</p>
+            <p id="donationsErrorDetail" class="text-xs text-cream/40 mt-3 max-w-lg mx-auto break-words"></p>
         </section>
     </main>
 
@@ -284,7 +329,7 @@
         function donationRow(member) {
             const rankLabel = RANK_LABEL[member.rank] || 'Membro';
             return `
-                <tr>
+                <tr data-player-id="${escapeHtml(member.id)}">
                     <td class="text-cream font-medium">${escapeHtml(member.username)}</td>
                     <td><span class="rank-badge rank-${member.rank}">${rankLabel}</span></td>
                     <td class="text-cream/70">${formatNumber(member.goldQuests)}</td>
@@ -293,6 +338,18 @@
                     <td class="text-cream/70">${formatNumber(member.donatedGemsAllTime)}</td>
                     <td class="${balanceClass(member.goldBalance)}">${formatNumber(member.goldBalance)}</td>
                     <td class="${balanceClass(member.gemBalance)}">${formatNumber(member.gemBalance)}</td>
+                    <td>
+                        <input type="number" step="1" class="adjust-input adjust-gold"
+                               value="${escapeHtml(String(member.manualGoldAdjustment ?? 0))}"
+                               oninput="recomputeFinal('${escapeHtml(member.id)}')">
+                    </td>
+                    <td>
+                        <input type="number" step="1" class="adjust-input adjust-gems"
+                               value="${escapeHtml(String(member.manualGemAdjustment ?? 0))}"
+                               oninput="recomputeFinal('${escapeHtml(member.id)}')">
+                    </td>
+                    <td class="final-gold ${balanceClass(member.finalGoldBalance)}">${formatNumber(member.finalGoldBalance)}</td>
+                    <td class="final-gems ${balanceClass(member.finalGemBalance)}">${formatNumber(member.finalGemBalance)}</td>
                 </tr>
             `;
         }
@@ -309,11 +366,15 @@
             document.getElementById('donationsError').classList.add('hidden');
         }
 
-        function showError() {
+        function showError(detail) {
             document.getElementById('loginGate').classList.add('hidden');
             document.getElementById('donationsContent').classList.add('hidden');
             document.getElementById('donationsError').classList.remove('hidden');
+            document.getElementById('donationsErrorDetail').textContent = detail || '';
         }
+
+        // guarda os dados carregados (base pro recálculo do saldo calculado, que não muda)
+        let loadedMembers = [];
 
         async function loadDonations() {
             const token = localStorage.getItem('vinicola_token');
@@ -332,15 +393,149 @@
                     showGate();
                     return;
                 }
-                if (!resp.ok) throw new Error('Falha ao buscar doações');
 
                 const data = await resp.json();
+
+                if (!resp.ok) {
+                    throw new Error(data?.detail || data?.error || 'Falha ao buscar doações');
+                }
+
+                loadedMembers = data.members;
                 document.getElementById('donationsBody').innerHTML = data.members.map(donationRow).join('');
                 showContent();
             } catch (err) {
-                showError();
+                showError(err.message);
             }
         }
+
+        // Recalcula o "saldo final" de uma linha em tempo real conforme o usuário digita o ajuste.
+        function recomputeFinal(playerId) {
+            const row = document.querySelector(`tr[data-player-id="${CSS.escape(playerId)}"]`);
+            if (!row) return;
+
+            const member = loadedMembers.find(m => m.id === playerId);
+            if (!member) return;
+
+            const goldAdj = Number(row.querySelector('.adjust-gold').value) || 0;
+            const gemAdj = Number(row.querySelector('.adjust-gems').value) || 0;
+
+            const finalGold = member.goldBalance + goldAdj;
+            const finalGems = member.gemBalance + gemAdj;
+
+            const goldCell = row.querySelector('.final-gold');
+            const gemsCell = row.querySelector('.final-gems');
+            goldCell.textContent = formatNumber(finalGold);
+            goldCell.className = `final-gold ${balanceClass(finalGold)}`;
+            gemsCell.textContent = formatNumber(finalGems);
+            gemsCell.className = `final-gems ${balanceClass(finalGems)}`;
+        }
+
+        // ---------- Colar em massa ----------
+        // Entende linhas tipo: "cigarros = -3000 💰👎" ou "esquizo = -1800💰👎 +100 💎"
+        // O sinal (+ ou -) antes do número é o que importa; 👎 é só decoração e é ignorado.
+        function parseBulkAdjustments(text) {
+            const result = {};
+            const lines = text.split('\n');
+
+            for (const rawLine of lines) {
+                const line = rawLine.trim();
+                if (!line || !line.includes('=')) continue;
+
+                const [namePart, valuesPart] = line.split('=');
+                const username = namePart.trim();
+                if (!username) continue;
+
+                let gold = 0;
+                let gems = 0;
+
+                const goldMatches = [...valuesPart.matchAll(/([+-])\s*(\d+)\s*💰/g)];
+                for (const m of goldMatches) gold += (m[1] === '-' ? -1 : 1) * parseInt(m[2], 10);
+
+                const gemMatches = [...valuesPart.matchAll(/([+-])\s*(\d+)\s*💎/g)];
+                for (const m of gemMatches) gems += (m[1] === '-' ? -1 : 1) * parseInt(m[2], 10);
+
+                if (goldMatches.length === 0 && gemMatches.length === 0) continue;
+
+                result[username.toLowerCase()] = { gold, gems };
+            }
+
+            return result;
+        }
+
+        document.getElementById('toggleBulkPaste').addEventListener('click', () => {
+            document.getElementById('bulkPasteBox').classList.toggle('hidden');
+        });
+
+        document.getElementById('applyBulkPaste').addEventListener('click', () => {
+            const text = document.getElementById('bulkPasteInput').value;
+            const parsed = parseBulkAdjustments(text);
+            const resultEl = document.getElementById('bulkPasteResult');
+
+            let matched = 0;
+            let unmatched = [];
+
+            for (const [usernameLower, values] of Object.entries(parsed)) {
+                const member = loadedMembers.find(m => m.username.toLowerCase() === usernameLower);
+                if (!member) {
+                    unmatched.push(usernameLower);
+                    continue;
+                }
+                const row = document.querySelector(`tr[data-player-id="${CSS.escape(member.id)}"]`);
+                if (!row) continue;
+
+                row.querySelector('.adjust-gold').value = values.gold;
+                row.querySelector('.adjust-gems').value = values.gems;
+                recomputeFinal(member.id);
+                matched++;
+            }
+
+            resultEl.textContent = unmatched.length
+                ? `${matched} aplicados. Não encontrados: ${unmatched.join(', ')}`
+                : `${matched} aplicados com sucesso.`;
+        });
+
+        // ---------- Salvar ajustes ----------
+        document.getElementById('saveAdjustments').addEventListener('click', async () => {
+            const statusEl = document.getElementById('saveAdjustmentsStatus');
+            const btn = document.getElementById('saveAdjustments');
+            const originalBtnText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Salvando...';
+            statusEl.textContent = '';
+
+            const adjustments = {};
+            document.querySelectorAll('#donationsBody tr').forEach(row => {
+                const playerId = row.dataset.playerId;
+                const gold = Number(row.querySelector('.adjust-gold').value) || 0;
+                const gems = Number(row.querySelector('.adjust-gems').value) || 0;
+                adjustments[playerId] = { gold, gems };
+            });
+
+            const token = localStorage.getItem('vinicola_token');
+            try {
+                const resp = await fetch(`${API_BASE}/clanAdjustments`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ adjustments })
+                });
+                const data = await resp.json();
+                if (!resp.ok) throw new Error(data?.error || 'Falha ao salvar');
+
+                statusEl.textContent = 'Ajustes salvos com sucesso.';
+                statusEl.classList.remove('text-red-400');
+                statusEl.classList.add('text-cream/50');
+            } catch (err) {
+                statusEl.textContent = err.message || 'Não foi possível salvar os ajustes.';
+                statusEl.classList.remove('text-cream/50');
+                statusEl.classList.add('text-red-400');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalBtnText;
+            }
+        });
 
         document.getElementById('gateLoginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
