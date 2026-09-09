@@ -234,12 +234,14 @@
                 <p class="mb-1"><i class="fas fa-circle-info text-gold/80 mr-1"></i> Regra de custo por missão:</p>
                 <p>Missão de <strong class="text-cream/80">Ouro</strong>: -600 de saldo de ouro por participação.</p>
                 <p>Missão de <strong class="text-cream/80">Gemas</strong>: -600 de saldo de ouro e -150 de saldo de gemas por participação.</p>
-                <p class="mt-2">Os campos de <strong class="text-cream/80">ajuste manual</strong> somam ou subtraem em cima desse cálculo — use pra eventos, prêmios ou penalidades que não vêm da API.</p>
+                <p class="mt-2">
+                    <strong class="text-cream/80">Saldo inicial</strong> é o "marco zero" de cada membro — a partir do momento em que você define e salva, o saldo passa a se mover sozinho conforme a API registra novas doações e missões, sem recalcular o histórico todo de novo.
+                </p>
             </div>
 
             <div class="max-w-2xl mx-auto mb-6">
                 <button id="toggleBulkPaste" type="button" class="text-sm text-gold hover:text-gold-bright transition-colors">
-                    <i class="fas fa-paste mr-1"></i> Colar ajustes em massa
+                    <i class="fas fa-paste mr-1"></i> Colar saldos iniciais em massa
                 </button>
                 <div id="bulkPasteBox" class="hidden mt-3 bg-wine-dark/30 border border-wine-light/20 rounded-xl p-4">
                     <p class="text-xs text-cream/50 mb-2">
@@ -250,7 +252,7 @@
                               placeholder="cigarros = -3000 💰&#10;costakaua = + 19660 💰"></textarea>
                     <div class="flex items-center gap-3 mt-3">
                         <button id="applyBulkPaste" type="button" class="bg-gold text-cellar font-semibold py-2 px-4 rounded-lg text-sm hover:bg-gold-bright transition-colors">
-                            Aplicar na tabela
+                            Preencher saldo inicial
                         </button>
                         <span id="bulkPasteResult" class="text-xs text-cream/50"></span>
                     </div>
@@ -267,12 +269,11 @@
                             <th>Missões gemas</th>
                             <th>Ouro doado (total)</th>
                             <th>Gemas doadas (total)</th>
-                            <th>Saldo calculado ouro</th>
-                            <th>Saldo calculado gemas</th>
-                            <th>Ajuste ouro</th>
-                            <th>Ajuste gemas</th>
-                            <th>Saldo final ouro</th>
-                            <th>Saldo final gemas</th>
+                            <th>Saldo inicial ouro</th>
+                            <th>Saldo inicial gemas</th>
+                            <th>Saldo atual ouro</th>
+                            <th>Saldo atual gemas</th>
+                            <th>Baseline definido em</th>
                         </tr>
                     </thead>
                     <tbody id="donationsBody"></tbody>
@@ -280,11 +281,14 @@
             </div>
 
             <div class="flex items-center gap-4 mt-6">
-                <button id="saveAdjustments" type="button" class="bg-gold text-cellar font-semibold py-2.5 px-5 rounded-lg text-sm hover:bg-gold-bright transition-colors">
-                    <i class="fas fa-floppy-disk mr-1"></i> Salvar ajustes
+                <button id="saveBaseline" type="button" class="bg-gold text-cellar font-semibold py-2.5 px-5 rounded-lg text-sm hover:bg-gold-bright transition-colors">
+                    <i class="fas fa-flag mr-1"></i> Definir baseline de hoje
                 </button>
-                <span id="saveAdjustmentsStatus" class="text-sm text-cream/50"></span>
+                <span id="saveBaselineStatus" class="text-sm text-cream/50"></span>
             </div>
+            <p class="text-xs text-cream/40 mt-2 max-w-lg">
+                Isso salva o saldo inicial digitado pra cada linha e tira uma foto dos totais atuais da API — só precisa fazer isso uma vez por membro (ou de novo, se precisar corrigir algo).
+            </p>
 
             <button id="logoutFromDonations" class="mt-6 text-sm text-cream/50 hover:text-gold transition-colors">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i> Sair
@@ -326,6 +330,11 @@
             return new Intl.NumberFormat('pt-BR').format(value);
         }
 
+        function dateLabel(iso) {
+            if (!iso) return '<span class="text-cream/30">não definido</span>';
+            return new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
+        }
+
         function donationRow(member) {
             const rankLabel = RANK_LABEL[member.rank] || 'Membro';
             return `
@@ -336,20 +345,17 @@
                     <td class="text-cream/70">${formatNumber(member.gemQuests)}</td>
                     <td class="text-cream/70">${formatNumber(member.donatedGoldAllTime)}</td>
                     <td class="text-cream/70">${formatNumber(member.donatedGemsAllTime)}</td>
+                    <td>
+                        <input type="number" step="1" class="adjust-input start-gold"
+                               value="${escapeHtml(String(member.hasBaseline ? member.goldBalance : 0))}">
+                    </td>
+                    <td>
+                        <input type="number" step="1" class="adjust-input start-gems"
+                               value="${escapeHtml(String(member.hasBaseline ? member.gemBalance : 0))}">
+                    </td>
                     <td class="${balanceClass(member.goldBalance)}">${formatNumber(member.goldBalance)}</td>
                     <td class="${balanceClass(member.gemBalance)}">${formatNumber(member.gemBalance)}</td>
-                    <td>
-                        <input type="number" step="1" class="adjust-input adjust-gold"
-                               value="${escapeHtml(String(member.manualGoldAdjustment ?? 0))}"
-                               oninput="recomputeFinal('${escapeHtml(member.id)}')">
-                    </td>
-                    <td>
-                        <input type="number" step="1" class="adjust-input adjust-gems"
-                               value="${escapeHtml(String(member.manualGemAdjustment ?? 0))}"
-                               oninput="recomputeFinal('${escapeHtml(member.id)}')">
-                    </td>
-                    <td class="final-gold ${balanceClass(member.finalGoldBalance)}">${formatNumber(member.finalGoldBalance)}</td>
-                    <td class="final-gems ${balanceClass(member.finalGemBalance)}">${formatNumber(member.finalGemBalance)}</td>
+                    <td class="text-cream/40 text-xs">${dateLabel(member.baselineSetAt)}</td>
                 </tr>
             `;
         }
@@ -373,7 +379,7 @@
             document.getElementById('donationsErrorDetail').textContent = detail || '';
         }
 
-        // guarda os dados carregados (base pro recálculo do saldo calculado, que não muda)
+        // guarda os dados carregados (útil pro parser de colagem em massa achar o id pelo nome)
         let loadedMembers = [];
 
         async function loadDonations() {
@@ -408,29 +414,7 @@
             }
         }
 
-        // Recalcula o "saldo final" de uma linha em tempo real conforme o usuário digita o ajuste.
-        function recomputeFinal(playerId) {
-            const row = document.querySelector(`tr[data-player-id="${CSS.escape(playerId)}"]`);
-            if (!row) return;
-
-            const member = loadedMembers.find(m => m.id === playerId);
-            if (!member) return;
-
-            const goldAdj = Number(row.querySelector('.adjust-gold').value) || 0;
-            const gemAdj = Number(row.querySelector('.adjust-gems').value) || 0;
-
-            const finalGold = member.goldBalance + goldAdj;
-            const finalGems = member.gemBalance + gemAdj;
-
-            const goldCell = row.querySelector('.final-gold');
-            const gemsCell = row.querySelector('.final-gems');
-            goldCell.textContent = formatNumber(finalGold);
-            goldCell.className = `final-gold ${balanceClass(finalGold)}`;
-            gemsCell.textContent = formatNumber(finalGems);
-            gemsCell.className = `final-gems ${balanceClass(finalGems)}`;
-        }
-
-        // ---------- Colar em massa ----------
+        // ---------- Colar saldos iniciais em massa ----------
         // Entende linhas tipo: "cigarros = -3000 💰👎" ou "esquizo = -1800💰👎 +100 💎"
         // O sinal (+ ou -) antes do número é o que importa; 👎 é só decoração e é ignorado.
         function parseBulkAdjustments(text) {
@@ -483,52 +467,53 @@
                 const row = document.querySelector(`tr[data-player-id="${CSS.escape(member.id)}"]`);
                 if (!row) continue;
 
-                row.querySelector('.adjust-gold').value = values.gold;
-                row.querySelector('.adjust-gems').value = values.gems;
-                recomputeFinal(member.id);
+                row.querySelector('.start-gold').value = values.gold;
+                row.querySelector('.start-gems').value = values.gems;
                 matched++;
             }
 
             resultEl.textContent = unmatched.length
                 ? `${matched} aplicados. Não encontrados: ${unmatched.join(', ')}`
-                : `${matched} aplicados com sucesso.`;
+                : `${matched} aplicados com sucesso. Confira os valores e clique em "Definir baseline de hoje" pra salvar.`;
         });
 
-        // ---------- Salvar ajustes ----------
-        document.getElementById('saveAdjustments').addEventListener('click', async () => {
-            const statusEl = document.getElementById('saveAdjustmentsStatus');
-            const btn = document.getElementById('saveAdjustments');
+        // ---------- Definir baseline ----------
+        document.getElementById('saveBaseline').addEventListener('click', async () => {
+            const statusEl = document.getElementById('saveBaselineStatus');
+            const btn = document.getElementById('saveBaseline');
             const originalBtnText = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Salvando...';
             statusEl.textContent = '';
 
-            const adjustments = {};
+            const entries = {};
             document.querySelectorAll('#donationsBody tr').forEach(row => {
                 const playerId = row.dataset.playerId;
-                const gold = Number(row.querySelector('.adjust-gold').value) || 0;
-                const gems = Number(row.querySelector('.adjust-gems').value) || 0;
-                adjustments[playerId] = { gold, gems };
+                const startingGold = Number(row.querySelector('.start-gold').value) || 0;
+                const startingGems = Number(row.querySelector('.start-gems').value) || 0;
+                entries[playerId] = { startingGold, startingGems };
             });
 
             const token = localStorage.getItem('vinicola_token');
             try {
-                const resp = await fetch(`${API_BASE}/clanAdjustments`, {
+                const resp = await fetch(`${API_BASE}/clanBaseline`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`
                     },
-                    body: JSON.stringify({ adjustments })
+                    body: JSON.stringify({ entries })
                 });
                 const data = await resp.json();
-                if (!resp.ok) throw new Error(data?.error || 'Falha ao salvar');
+                if (!resp.ok) throw new Error(data?.detail || data?.error || 'Falha ao salvar');
 
-                statusEl.textContent = 'Ajustes salvos com sucesso.';
+                statusEl.textContent = 'Baseline definido com sucesso.';
                 statusEl.classList.remove('text-red-400');
                 statusEl.classList.add('text-cream/50');
+
+                await loadDonations();
             } catch (err) {
-                statusEl.textContent = err.message || 'Não foi possível salvar os ajustes.';
+                statusEl.textContent = err.message || 'Não foi possível salvar o baseline.';
                 statusEl.classList.remove('text-cream/50');
                 statusEl.classList.add('text-red-400');
             } finally {
