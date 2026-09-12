@@ -263,7 +263,7 @@
       const result = await response.json();
 
       if (response.status < 200 || response.status >= 300) {
-        const realMessage = result.message || result.error || result.detail || `Erro (status ${response.status})`;
+        const realMessage = result.message || result.detail || result.error || `Erro (status ${response.status})`;
         throw new Error(realMessage);
       }
 
