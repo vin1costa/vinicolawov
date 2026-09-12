@@ -251,6 +251,18 @@
 
   const API_BASE = "https://vinicolawov.viniciusxp13.workers.dev";
 
+  // Traduz mensagens conhecidas da API do Wolvesville. Qualquer mensagem que
+  // não esteja nesse mapa continua aparecendo no idioma original — assim a
+  // gente não perde a visibilidade real caso surja um erro novo/desconhecido.
+  const WOLVESVILLE_MESSAGE_TRANSLATIONS = {
+    "No active quest": "Não há espera pra pular agora (a missão ainda está em andamento, ou o tier atual precisa ser resgatado antes).",
+    "No active quest or already claimed time": "Não há espera pra pular agora (a missão ainda está em andamento, ou o tier atual precisa ser resgatado antes)."
+  };
+
+  function translateWolvesvilleMessage(message) {
+    return WOLVESVILLE_MESSAGE_TRANSLATIONS[message] || message;
+  }
+
   async function skipWaitingTime() {
     const btn = document.getElementById('joinButton');
     if (btn.disabled) return;
@@ -264,7 +276,7 @@
 
       if (response.status < 200 || response.status >= 300) {
         const realMessage = result.message || result.detail || result.error || `Erro (status ${response.status})`;
-        throw new Error(realMessage);
+        throw new Error(translateWolvesvilleMessage(realMessage));
       }
 
       alert("Tempo de espera pulado com sucesso!");
